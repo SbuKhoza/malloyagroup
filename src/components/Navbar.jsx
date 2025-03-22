@@ -12,12 +12,11 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
-  useTheme
+  useTheme,
+  ListItemButton
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
-
-
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -41,34 +40,91 @@ const Navbar = () => {
 
   const drawer = (
     <Box
-      sx={{ width: 250 }}
+      sx={{ 
+        width: 250,
+        backgroundColor: '#F0F8FF',
+        height: '100%'
+      }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      <Box sx={{ 
+        p: 3, 
+        backgroundColor: '#002244', 
+        color: 'white',
+        mb: 2
+      }}>
+        <Typography variant="h6" component="div" sx={{ fontWeight: 700 }}>
+          MALLOYA GROUP
+        </Typography>
+      </Box>
       <List>
         {navItems.map((item) => (
-          <ListItem button key={item.name} component={RouterLink} to={item.path}>
-            <ListItemText primary={item.name} />
+          <ListItem key={item.name} disablePadding>
+            <ListItemButton 
+              component={RouterLink} 
+              to={item.path}
+              sx={{ 
+                py: 1.5,
+                '&:hover': {
+                  backgroundColor: 'rgba(0,34,68,0.05)'
+                }
+              }}
+            >
+              <ListItemText 
+                primary={item.name} 
+                primaryTypographyProps={{ 
+                  fontWeight: 500,
+                  color: '#002244'
+                }}
+              />
+            </ListItemButton>
           </ListItem>
         ))}
       </List>
+      <Box sx={{ p: 2, mt: 2 }}>
+        <Button
+          fullWidth
+          variant="contained"
+          component={RouterLink}
+          to="/contact"
+          sx={{ 
+            py: 1.2,
+            backgroundColor: '#002244',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: '#001a33',
+            }
+          }}
+        >
+          Get Started
+        </Button>
+      </Box>
     </Box>
   );
 
   return (
-    <AppBar position="sticky" color="default" elevation={2} sx={{ backgroundColor: 'white' }}>
+    <AppBar 
+      position="sticky" 
+      elevation={0} 
+      sx={{ 
+        backgroundColor: 'white',
+        borderBottom: '1px solid rgba(0,34,68,0.1)'
+      }}
+    >
       <Container maxWidth="lg">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ py: 1 }}>
           <Typography
             variant="h5"
             component={RouterLink}
             to="/"
             sx={{
-              fontWeight: 700,
-              color: 'primary.main',
+              fontWeight: 800,
+              color: '#002244', // Navy blue from Home
               textDecoration: 'none',
               flexGrow: 1,
+              letterSpacing: '-0.5px'
             }}
           >
             MALLOYA GROUP
@@ -78,10 +134,12 @@ const Navbar = () => {
             <>
               <IconButton
                 edge="end"
-                color="inherit"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ ml: 1 }}
+                sx={{ 
+                  ml: 1,
+                  color: '#002244'
+                }}
               >
                 <MenuIcon />
               </IconButton>
@@ -100,18 +158,35 @@ const Navbar = () => {
                   key={item.name}
                   component={RouterLink}
                   to={item.path}
-                  color="inherit"
-                  sx={{ mx: 1, fontWeight: 500 }}
+                  sx={{ 
+                    mx: 1.5, 
+                    fontWeight: 500,
+                    color: '#002244',
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                      color: 'rgba(0,34,68,0.7)'
+                    }
+                  }}
                 >
                   {item.name}
                 </Button>
               ))}
               <Button
                 variant="contained"
-                color="primary"
-                sx={{ ml: 2 }}
                 component={RouterLink}
                 to="/contact"
+                sx={{ 
+                  ml: 2,
+                  px: 3,
+                  py: 1,
+                  backgroundColor: '#002244', // Navy blue from Home
+                  color: 'white',
+                  fontWeight: 500,
+                  borderRadius: '4px',
+                  '&:hover': {
+                    backgroundColor: '#001a33', // Slightly darker on hover
+                  }
+                }}
               >
                 Get Started
               </Button>

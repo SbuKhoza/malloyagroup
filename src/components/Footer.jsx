@@ -7,7 +7,10 @@ import {
   Link, 
   IconButton,
   Divider,
-  Stack
+  Stack,
+  Button,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -19,124 +22,301 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 
 const Footer = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const currentYear = new Date().getFullYear();
+
   return (
     <Box
       sx={{
-        bgcolor: 'background.paper',
-        color: 'text.primary',
-        py: 6,
+        bgcolor: '#F0F8FF', // Light blue background matching drawer
+        color: '#002244', // Navy blue text matching navbar
+        py: { xs: 4, md: 6 },
         borderTop: '1px solid',
-        borderColor: 'divider',
+        borderColor: 'rgba(0,34,68,0.1)',
       }}
     >
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6" color="primary" gutterBottom>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#002244', 
+                fontWeight: 700, 
+                letterSpacing: '-0.5px',
+                mb: 2
+              }}
+            >
               MALLOYA GROUP
             </Typography>
-            <Typography variant="body2" paragraph>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: 'rgba(0,34,68,0.85)', 
+                mb: 2,
+                maxWidth: '95%'
+              }}
+            >
               Your trusted partner for web development, mobile apps, and hosting solutions.
             </Typography>
             <Stack direction="row" spacing={1}>
-              <IconButton color="primary" aria-label="facebook">
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: '#002244',
+                  '&:hover': { 
+                    bgcolor: 'rgba(0,34,68,0.05)',
+                    color: 'rgba(0,34,68,0.7)' 
+                  }
+                }}
+                aria-label="facebook"
+              >
                 <FacebookIcon />
               </IconButton>
-              <IconButton color="primary" aria-label="twitter">
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: '#002244',
+                  '&:hover': { 
+                    bgcolor: 'rgba(0,34,68,0.05)',
+                    color: 'rgba(0,34,68,0.7)' 
+                  }
+                }}
+                aria-label="twitter"
+              >
                 <TwitterIcon />
               </IconButton>
-              <IconButton color="primary" aria-label="instagram">
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: '#002244',
+                  '&:hover': { 
+                    bgcolor: 'rgba(0,34,68,0.05)',
+                    color: 'rgba(0,34,68,0.7)' 
+                  }
+                }}
+                aria-label="instagram"
+              >
                 <InstagramIcon />
               </IconButton>
-              <IconButton color="primary" aria-label="linkedin">
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: '#002244',
+                  '&:hover': { 
+                    bgcolor: 'rgba(0,34,68,0.05)',
+                    color: 'rgba(0,34,68,0.7)' 
+                  }
+                }}
+                aria-label="linkedin"
+              >
                 <LinkedInIcon />
               </IconButton>
             </Stack>
           </Grid>
           
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6" gutterBottom>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#002244', 
+                fontWeight: 600,
+                fontSize: '1rem',
+                mb: 2
+              }}
+            >
               Services
             </Typography>
-            <Link component={RouterLink} to="/services" color="inherit" display="block" sx={{ mb: 1 }}>
-              Website Development
-            </Link>
-            <Link component={RouterLink} to="/services" color="inherit" display="block" sx={{ mb: 1 }}>
-              Mobile App Development
-            </Link>
-            <Link component={RouterLink} to="/hosting" color="inherit" display="block" sx={{ mb: 1 }}>
-              Web Hosting
-            </Link>
-            <Link component={RouterLink} to="/services" color="inherit" display="block" sx={{ mb: 1 }}>
-              UI/UX Consultation
-            </Link>
-            <Link component={RouterLink} to="/services" color="inherit" display="block" sx={{ mb: 1 }}>
-              Testing Services
-            </Link>
+            {[
+              { text: 'Website Development', path: '/services' },
+              { text: 'Mobile App Development', path: '/services' },
+              { text: 'Web Hosting', path: '/hosting' },
+              { text: 'UI/UX Consultation', path: '/services' },
+              { text: 'Testing Services', path: '/services' }
+            ].map((item, index) => (
+              <Link 
+                key={index}
+                component={RouterLink} 
+                to={item.path} 
+                sx={{ 
+                  color: 'rgba(0,34,68,0.75)', 
+                  display: 'block', 
+                  mb: 1.5,
+                  fontSize: '0.9rem',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  '&:hover': {
+                    color: '#002244',
+                  }
+                }}
+              >
+                {item.text}
+              </Link>
+            ))}
           </Grid>
           
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6" gutterBottom>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#002244', 
+                fontWeight: 600,
+                fontSize: '1rem',
+                mb: 2
+              }}
+            >
               Quick Links
             </Typography>
-            <Link component={RouterLink} to="/" color="inherit" display="block" sx={{ mb: 1 }}>
-              Home
-            </Link>
-            <Link component={RouterLink} to="/about" color="inherit" display="block" sx={{ mb: 1 }}>
-              About Us
-            </Link>
-            <Link component={RouterLink} to="/contact" color="inherit" display="block" sx={{ mb: 1 }}>
-              Contact
-            </Link>
-            <Link component={RouterLink} to="/hosting" color="inherit" display="block" sx={{ mb: 1 }}>
-              Hosting Plans
-            </Link>
-            <Link component="a" href="#" color="inherit" display="block" sx={{ mb: 1 }}>
-              Blog
-            </Link>
+            {[
+              { text: 'Home', path: '/' },
+              { text: 'About Us', path: '/about' },
+              { text: 'Contact', path: '/contact' },
+              { text: 'Hosting Plans', path: '/hosting' },
+              { text: 'Blog', path: '#' }
+            ].map((item, index) => (
+              <Link 
+                key={index}
+                component={RouterLink} 
+                to={item.path} 
+                sx={{ 
+                  color: 'rgba(0,34,68,0.75)', 
+                  display: 'block', 
+                  mb: 1.5,
+                  fontSize: '0.9rem',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  '&:hover': {
+                    color: '#002244',
+                  }
+                }}
+              >
+                {item.text}
+              </Link>
+            ))}
           </Grid>
           
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6" gutterBottom>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#002244', 
+                fontWeight: 600,
+                fontSize: '1rem',
+                mb: 2
+              }}
+            >
               Contact Us
             </Typography>
-            <Box sx={{ display: 'flex', mb: 1 }}>
-              <LocationOnIcon sx={{ mr: 1, color: 'primary.main' }} />
-              <Typography variant="body2">
+            <Box sx={{ display: 'flex', mb: 2 }}>
+              <LocationOnIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: 'rgba(0,34,68,0.75)',
+                  fontSize: '0.9rem'
+                }}
+              >
                 123 Business Street, Cape Town, South Africa
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', mb: 1 }}>
-              <PhoneIcon sx={{ mr: 1, color: 'primary.main' }} />
-              <Typography variant="body2">
+            <Box sx={{ display: 'flex', mb: 2 }}>
+              <PhoneIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: 'rgba(0,34,68,0.75)',
+                  fontSize: '0.9rem'
+                }}
+              >
                 +27 12 345 6789
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', mb: 1 }}>
-              <EmailIcon sx={{ mr: 1, color: 'primary.main' }} />
-              <Typography variant="body2">
+            <Box sx={{ display: 'flex', mb: 2 }}>
+              <EmailIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: 'rgba(0,34,68,0.75)',
+                  fontSize: '0.9rem'
+                }}
+              >
                 info@malloyagroup.co.za
               </Typography>
             </Box>
+            
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="/contact"
+              fullWidth
+              sx={{ 
+                mt: 2,
+                py: 1,
+                backgroundColor: '#002244',
+                color: 'white',
+                fontWeight: 500,
+                borderRadius: '4px',
+                '&:hover': {
+                  backgroundColor: '#001a33',
+                }
+              }}
+            >
+              Get In Touch
+            </Button>
           </Grid>
         </Grid>
         
-        <Divider sx={{ my: 4 }} />
+        <Divider sx={{ 
+          my: { xs: 3, md: 4 }, 
+          borderColor: 'rgba(0,34,68,0.1)' 
+        }} />
         
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-          <Typography variant="body2" color="text.secondary">
-            © {new Date().getFullYear()} MALLOYA GROUP. All rights reserved.
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: { xs: 'center', sm: 'space-between' }, 
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: 'center',
+          gap: { xs: 2, sm: 0 }
+        }}>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: 'rgba(0,34,68,0.6)',
+              textAlign: { xs: 'center', sm: 'left' }
+            }}
+          >
+            © {currentYear} MALLOYA GROUP. All rights reserved.
           </Typography>
-          <Box>
-            <Link href="#" color="inherit" sx={{ mr: 2 }}>
-              <Typography variant="body2" color="text.secondary">
-                Privacy Policy
-              </Typography>
+          <Box sx={{ 
+            display: 'flex',
+            gap: { xs: 3, sm: 4 }
+          }}>
+            <Link 
+              href="#" 
+              sx={{ 
+                color: 'rgba(0,34,68,0.6)',
+                textDecoration: 'none',
+                fontSize: '0.85rem',
+                '&:hover': {
+                  color: '#002244',
+                }
+              }}
+            >
+              Privacy Policy
             </Link>
-            <Link href="#" color="inherit">
-              <Typography variant="body2" color="text.secondary">
-                Terms of Service
-              </Typography>
+            <Link 
+              href="#" 
+              sx={{ 
+                color: 'rgba(0,34,68,0.6)',
+                textDecoration: 'none',
+                fontSize: '0.85rem',
+                '&:hover': {
+                  color: '#002244',
+                }
+              }}
+            >
+              Terms of Service
             </Link>
           </Box>
         </Box>

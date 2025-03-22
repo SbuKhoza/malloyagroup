@@ -7,7 +7,9 @@ import {
   Paper,
   Avatar,
   Divider,
-  Button
+  Button,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import BusinessIcon from '@mui/icons-material/Business';
@@ -19,10 +21,12 @@ const AboutHero = () => {
   return (
     <Box 
       sx={{ 
-        backgroundColor: 'primary.main',
+        background: 'linear-gradient(135deg, #002244 0%, #001a33 100%)', // Navy gradient from Home
         color: 'white',
-        py: 8,
-        textAlign: 'center'
+        py: { xs: 8, md: 12 },
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <Container maxWidth="md">
@@ -31,7 +35,7 @@ const AboutHero = () => {
           component="h1" 
           gutterBottom
           sx={{ 
-            fontWeight: 700,
+            fontWeight: 800,
             mb: 3
           }}
         >
@@ -49,13 +53,26 @@ const AboutHero = () => {
           Your trusted digital partner for web development, mobile applications, and hosting solutions
         </Typography>
       </Container>
+      {/* Add subtle pattern overlay like in Home */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(rgba(240,248,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          pointerEvents: 'none'
+        }}
+      />
     </Box>
   );
 };
 
 const OurStory = () => {
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 8, backgroundColor: '#fff' }}>
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
@@ -66,12 +83,13 @@ const OurStory = () => {
               sx={{ 
                 width: '100%',
                 borderRadius: 2,
-                boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                border: '1px solid rgba(240,248,255,0.5)', // Light blue border like in Home
               }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Typography variant="h3" component="h2" fontWeight="bold" gutterBottom>
+            <Typography variant="h3" component="h2" fontWeight="bold" gutterBottom color="#002244">
               Our Story
             </Typography>
             <Typography variant="body1" paragraph>
@@ -115,7 +133,7 @@ const CoreValues = () => {
   ];
 
   return (
-    <Box sx={{ py: 8, backgroundColor: 'background.default' }}>
+    <Box sx={{ py: 8, backgroundColor: '#F0F8FF' }}> {/* Light blue background from Home */}
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
@@ -124,17 +142,18 @@ const CoreValues = () => {
             gutterBottom
             sx={{ 
               fontWeight: 700,
-              mb: 2
+              mb: 2,
+              color: '#002244' // Navy text like in Home
             }}
           >
             Our Core Values
           </Typography>
           <Typography 
             variant="h5" 
-            color="text.secondary"
             sx={{ 
               maxWidth: 800,
-              mx: 'auto' 
+              mx: 'auto',
+              color: 'rgba(0,34,68,0.8)' // Semi-transparent navy like in Home
             }}
           >
             The principles that guide us in everything we do
@@ -151,23 +170,25 @@ const CoreValues = () => {
                   height: '100%',
                   textAlign: 'center',
                   borderRadius: 2,
-                  backgroundColor: 'background.paper',
-                  transition: 'transform 0.3s ease',
+                  backgroundColor: 'white',
+                  border: '1px solid rgba(0,34,68,0.1)',
+                  transition: 'all 0.3s ease',
                   '&:hover': {
                     transform: 'translateY(-8px)',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                    borderColor: 'rgba(0,34,68,0.2)'
                   }
                 }}
               >
                 <Box sx={{ 
-                  color: 'primary.main', 
+                  color: '#002244', // Navy blue from Home
                   mb: 2,
                   display: 'flex',
                   justifyContent: 'center'
                 }}>
                   {value.icon}
                 </Box>
-                <Typography variant="h5" component="h3" gutterBottom fontWeight="bold">
+                <Typography variant="h5" component="h3" gutterBottom fontWeight="bold" color="#002244">
                   {value.title}
                 </Typography>
                 <Typography color="text.secondary">
@@ -211,7 +232,7 @@ const MeetTheTeam = () => {
   ];
 
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 8, backgroundColor: 'white' }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
@@ -220,17 +241,18 @@ const MeetTheTeam = () => {
             gutterBottom
             sx={{ 
               fontWeight: 700,
-              mb: 2
+              mb: 2,
+              color: '#002244' // Navy text like in Home
             }}
           >
             Meet Our Team
           </Typography>
           <Typography 
             variant="h5" 
-            color="text.secondary"
             sx={{ 
               maxWidth: 800,
-              mx: 'auto' 
+              mx: 'auto',
+              color: 'rgba(0,34,68,0.8)' // Semi-transparent navy like in Home
             }}
           >
             The talented professionals behind our success
@@ -246,8 +268,13 @@ const MeetTheTeam = () => {
                   height: '100%',
                   borderRadius: 2,
                   overflow: 'hidden',
-                  border: '1px solid',
-                  borderColor: 'divider'
+                  border: '1px solid rgba(0,34,68,0.1)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                    borderColor: 'rgba(0,34,68,0.2)'
+                  }
                 }}
               >
                 <Box
@@ -261,10 +288,10 @@ const MeetTheTeam = () => {
                   }}
                 />
                 <Box sx={{ p: 3 }}>
-                  <Typography variant="h5" component="h3" fontWeight="bold" gutterBottom>
+                  <Typography variant="h5" component="h3" fontWeight="bold" gutterBottom color="#002244">
                     {member.name}
                   </Typography>
-                  <Typography variant="subtitle1" color="primary" gutterBottom>
+                  <Typography variant="subtitle1" color="#002244" gutterBottom>
                     {member.position}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -291,14 +318,14 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <Box sx={{ py: 8, backgroundColor: 'background.default' }}>
+    <Box sx={{ py: 8, backgroundColor: '#F0F8FF' }}> {/* Light blue background from Home */}
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
-            <Typography variant="h3" component="h2" fontWeight="bold" gutterBottom>
+            <Typography variant="h3" component="h2" fontWeight="bold" gutterBottom color="#002244">
               Why Choose MALLOYA GROUP?
             </Typography>
-            <Typography variant="body1" paragraph sx={{ mb: 4 }}>
+            <Typography variant="body1" paragraph sx={{ mb: 4, color: 'rgba(0,34,68,0.8)' }}>
               We're not just another digital agency. We're a team of passionate professionals dedicated to helping your business succeed in the digital landscape.
             </Typography>
             
@@ -310,7 +337,7 @@ const WhyChooseUs = () => {
                       minWidth: 24,
                       height: 24,
                       borderRadius: '50%',
-                      backgroundColor: 'primary.main',
+                      backgroundColor: '#002244', // Navy from Home
                       color: 'white',
                       display: 'flex',
                       alignItems: 'center',
@@ -321,7 +348,7 @@ const WhyChooseUs = () => {
                   >
                     ✓
                   </Box>
-                  <Typography variant="body1">
+                  <Typography variant="body1" color="rgba(0,34,68,0.8)">
                     {reason}
                   </Typography>
                 </Box>
@@ -336,7 +363,8 @@ const WhyChooseUs = () => {
               sx={{ 
                 width: '100%',
                 borderRadius: 2,
-                boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                border: '1px solid rgba(240,248,255,0.5)', // Light blue border like in Home
               }}
             />
           </Grid>
@@ -350,10 +378,12 @@ const AboutCTA = () => {
   return (
     <Box 
       sx={{
-        backgroundColor: 'primary.main',
+        background: 'linear-gradient(135deg, #002244 0%, #001a33 100%)', // Navy gradient from Home
         color: 'white',
-        py: 8,
-        textAlign: 'center'
+        py: 10,
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <Container maxWidth="md">
@@ -382,11 +412,18 @@ const AboutCTA = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
           <Button 
             variant="contained" 
-            color="secondary"
             size="large"
             component={RouterLink}
             to="/contact"
-            sx={{ px: 4, py: 1.5 }}
+            sx={{ 
+              px: 4, 
+              py: 1.5, 
+              backgroundColor: '#F0F8FF', // Light blue from Home
+              color: '#002244', // Navy blue text
+              '&:hover': {
+                backgroundColor: '#d7e9fa', // Slightly darker on hover
+              }
+            }}
           >
             Contact Us
           </Button>
@@ -402,6 +439,19 @@ const AboutCTA = () => {
           </Button>
         </Box>
       </Container>
+      {/* Add subtle pattern overlay like in Home */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(rgba(240,248,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          pointerEvents: 'none'
+        }}
+      />
     </Box>
   );
 };

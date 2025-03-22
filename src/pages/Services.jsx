@@ -27,10 +27,12 @@ const ServicesHero = () => {
   return (
     <Box 
       sx={{ 
-        backgroundColor: 'primary.main',
+        background: 'linear-gradient(135deg, #002244 0%, #001a33 100%)',
         color: 'white',
         py: 8,
-        textAlign: 'center'
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <Container maxWidth="md">
@@ -57,13 +59,26 @@ const ServicesHero = () => {
           We offer comprehensive digital solutions to help your business thrive in the digital landscape
         </Typography>
       </Container>
+      {/* Add subtle pattern overlay as in Home page */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(rgba(240,248,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          pointerEvents: 'none'
+        }}
+      />
     </Box>
   );
 };
 
 const WebDevelopment = () => {
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 8, backgroundColor: 'white' }}>
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
@@ -80,15 +95,15 @@ const WebDevelopment = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <ComputerIcon color="primary" sx={{ fontSize: 32, mr: 2 }} />
-              <Typography variant="h3" component="h2" fontWeight="bold">
+              <ComputerIcon sx={{ fontSize: 32, mr: 2, color: '#002244' }} />
+              <Typography variant="h3" component="h2" fontWeight="bold" color="#002244">
                 Website Development
               </Typography>
             </Box>
-            <Typography variant="h5" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
+            <Typography variant="h5" sx={{ mb: 3, fontWeight: 'medium', color: 'rgba(0,34,68,0.8)' }}>
               Custom websites that drive results
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" paragraph color="rgba(0,34,68,0.8)">
               We create stunning, responsive websites tailored to your business needs. Our development process focuses on creating user-friendly, high-performing sites that help you achieve your goals.
             </Typography>
             
@@ -102,20 +117,26 @@ const WebDevelopment = () => {
               ].map((item, index) => (
                 <ListItem key={index} disableGutters sx={{ py: 1 }}>
                   <ListItemIcon sx={{ minWidth: 36 }}>
-                    <CheckCircleOutlineIcon color="primary" />
+                    <CheckCircleOutlineIcon sx={{ color: '#002244' }} />
                   </ListItemIcon>
-                  <ListItemText primary={item} />
+                  <ListItemText primary={item} sx={{ color: 'rgba(0,34,68,0.8)' }} />
                 </ListItem>
               ))}
             </List>
             
             <Button 
               variant="contained" 
-              color="primary"
               size="large"
               component={RouterLink}
               to="/contact"
-              sx={{ mt: 3 }}
+              sx={{ 
+                mt: 3,
+                backgroundColor: '#002244',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#001a33',
+                }
+              }}
             >
               Start Your Project
             </Button>
@@ -128,20 +149,20 @@ const WebDevelopment = () => {
 
 const MobileAppDevelopment = () => {
   return (
-    <Box sx={{ py: 8, backgroundColor: 'background.default' }}>
+    <Box sx={{ py: 8, backgroundColor: '#F0F8FF' }}>
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center" direction={{ xs: 'column-reverse', md: 'row' }}>
           <Grid item xs={12} md={6}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <PhoneAndroidIcon color="primary" sx={{ fontSize: 32, mr: 2 }} />
-              <Typography variant="h3" component="h2" fontWeight="bold">
+              <PhoneAndroidIcon sx={{ fontSize: 32, mr: 2, color: '#002244' }} />
+              <Typography variant="h3" component="h2" fontWeight="bold" color="#002244">
                 Mobile App Development
               </Typography>
             </Box>
-            <Typography variant="h5" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
+            <Typography variant="h5" sx={{ mb: 3, fontWeight: 'medium', color: 'rgba(0,34,68,0.8)' }}>
               Native and cross-platform apps for iOS and Android
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" paragraph color="rgba(0,34,68,0.8)">
               We design and develop user-friendly mobile applications that deliver exceptional user experiences across all devices. Our mobile solutions help businesses engage customers and streamline operations.
             </Typography>
             
@@ -155,20 +176,26 @@ const MobileAppDevelopment = () => {
               ].map((item, index) => (
                 <ListItem key={index} disableGutters sx={{ py: 1 }}>
                   <ListItemIcon sx={{ minWidth: 36 }}>
-                    <CheckCircleOutlineIcon color="primary" />
+                    <CheckCircleOutlineIcon sx={{ color: '#002244' }} />
                   </ListItemIcon>
-                  <ListItemText primary={item} />
+                  <ListItemText primary={item} sx={{ color: 'rgba(0,34,68,0.8)' }} />
                 </ListItem>
               ))}
             </List>
             
             <Button 
               variant="contained" 
-              color="primary"
               size="large"
               component={RouterLink}
               to="/contact"
-              sx={{ mt: 3 }}
+              sx={{ 
+                mt: 3,
+                backgroundColor: '#002244',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#001a33',
+                }
+              }}
             >
               Discuss Your App
             </Button>
@@ -193,7 +220,7 @@ const MobileAppDevelopment = () => {
 
 const UXConsultation = () => {
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 8, backgroundColor: 'white' }}>
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
@@ -210,15 +237,15 @@ const UXConsultation = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <DesignServicesIcon color="primary" sx={{ fontSize: 32, mr: 2 }} />
-              <Typography variant="h3" component="h2" fontWeight="bold">
+              <DesignServicesIcon sx={{ fontSize: 32, mr: 2, color: '#002244' }} />
+              <Typography variant="h3" component="h2" fontWeight="bold" color="#002244">
                 UI/UX Consultation
               </Typography>
             </Box>
-            <Typography variant="h5" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
+            <Typography variant="h5" sx={{ mb: 3, fontWeight: 'medium', color: 'rgba(0,34,68,0.8)' }}>
               Create intuitive, user-centered designs
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" paragraph color="rgba(0,34,68,0.8)">
               Our UI/UX consultations help you create digital products that users love. We focus on user research, intuitive interfaces, and seamless experiences to increase engagement and conversion.
             </Typography>
             
@@ -232,20 +259,26 @@ const UXConsultation = () => {
               ].map((item, index) => (
                 <ListItem key={index} disableGutters sx={{ py: 1 }}>
                   <ListItemIcon sx={{ minWidth: 36 }}>
-                    <CheckCircleOutlineIcon color="primary" />
+                    <CheckCircleOutlineIcon sx={{ color: '#002244' }} />
                   </ListItemIcon>
-                  <ListItemText primary={item} />
+                  <ListItemText primary={item} sx={{ color: 'rgba(0,34,68,0.8)' }} />
                 </ListItem>
               ))}
             </List>
             
             <Button 
               variant="contained" 
-              color="primary"
               size="large"
               component={RouterLink}
               to="/contact"
-              sx={{ mt: 3 }}
+              sx={{ 
+                mt: 3,
+                backgroundColor: '#002244',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#001a33',
+                }
+              }}
             >
               Book a Consultation
             </Button>
@@ -258,20 +291,20 @@ const UXConsultation = () => {
 
 const TestingServices = () => {
   return (
-    <Box sx={{ py: 8, backgroundColor: 'background.default' }}>
+    <Box sx={{ py: 8, backgroundColor: '#F0F8FF' }}>
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center" direction={{ xs: 'column-reverse', md: 'row' }}>
           <Grid item xs={12} md={6}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <BugReportIcon color="primary" sx={{ fontSize: 32, mr: 2 }} />
-              <Typography variant="h3" component="h2" fontWeight="bold">
+              <BugReportIcon sx={{ fontSize: 32, mr: 2, color: '#002244' }} />
+              <Typography variant="h3" component="h2" fontWeight="bold" color="#002244">
                 Testing Services
               </Typography>
             </Box>
-            <Typography variant="h5" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
+            <Typography variant="h5" sx={{ mb: 3, fontWeight: 'medium', color: 'rgba(0,34,68,0.8)' }}>
               Ensure quality and performance
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" paragraph color="rgba(0,34,68,0.8)">
               Our comprehensive testing services ensure your digital products work flawlessly across all devices and scenarios. We identify and fix issues before they impact your users.
             </Typography>
             
@@ -285,20 +318,26 @@ const TestingServices = () => {
               ].map((item, index) => (
                 <ListItem key={index} disableGutters sx={{ py: 1 }}>
                   <ListItemIcon sx={{ minWidth: 36 }}>
-                    <CheckCircleOutlineIcon color="primary" />
+                    <CheckCircleOutlineIcon sx={{ color: '#002244' }} />
                   </ListItemIcon>
-                  <ListItemText primary={item} />
+                  <ListItemText primary={item} sx={{ color: 'rgba(0,34,68,0.8)' }} />
                 </ListItem>
               ))}
             </List>
             
             <Button 
               variant="contained" 
-              color="primary"
               size="large"
               component={RouterLink}
               to="/contact"
-              sx={{ mt: 3 }}
+              sx={{ 
+                mt: 3,
+                backgroundColor: '#002244',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#001a33',
+                }
+              }}
             >
               Get Started
             </Button>
@@ -350,7 +389,7 @@ const ProcessSection = () => {
   ];
 
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 8, backgroundColor: 'white' }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
@@ -359,17 +398,18 @@ const ProcessSection = () => {
             gutterBottom
             sx={{ 
               fontWeight: 700,
-              mb: 2
+              mb: 2,
+              color: '#002244'
             }}
           >
             Our Development Process
           </Typography>
           <Typography 
             variant="h5" 
-            color="text.secondary"
             sx={{ 
               maxWidth: 800,
-              mx: 'auto' 
+              mx: 'auto',
+              color: 'rgba(0,34,68,0.8)'
             }}
           >
             A structured approach to deliver quality digital solutions
@@ -384,8 +424,12 @@ const ProcessSection = () => {
                 sx={{ 
                   height: '100%',
                   borderRadius: 2,
-                  border: '1px solid',
-                  borderColor: 'divider'
+                  border: '1px solid rgba(0,34,68,0.1)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-5px)',
+                    boxShadow: '0 10px 30px rgba(0,34,68,0.1)'
+                  }
                 }}
               >
                 <CardContent sx={{ p: 4 }}>
@@ -397,7 +441,7 @@ const ProcessSection = () => {
                       width: 48,
                       height: 48,
                       borderRadius: '50%',
-                      backgroundColor: 'primary.main',
+                      backgroundColor: '#002244',
                       color: 'white',
                       fontWeight: 'bold',
                       fontSize: 20,
@@ -406,10 +450,10 @@ const ProcessSection = () => {
                   >
                     {index + 1}
                   </Box>
-                  <Typography variant="h5" component="h3" gutterBottom fontWeight="bold">
+                  <Typography variant="h5" component="h3" gutterBottom fontWeight="bold" color="#002244">
                     {step.title}
                   </Typography>
-                  <Typography color="text.secondary">
+                  <Typography color="rgba(0,34,68,0.8)">
                     {step.description}
                   </Typography>
                 </CardContent>
@@ -426,10 +470,12 @@ const ServicesCTA = () => {
   return (
     <Box 
       sx={{
-        backgroundColor: 'primary.main',
+        background: 'linear-gradient(135deg, #002244 0%, #001a33 100%)',
         color: 'white',
         py: 8,
-        textAlign: 'center'
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <Container maxWidth="md">
@@ -457,15 +503,35 @@ const ServicesCTA = () => {
         </Typography>
         <Button 
           variant="contained" 
-          color="secondary"
           size="large"
           component={RouterLink}
           to="/contact"
-          sx={{ px: 5, py: 1.5 }}
+          sx={{ 
+            px: 5, 
+            py: 1.5, 
+            backgroundColor: '#F0F8FF',
+            color: '#002244',
+            '&:hover': {
+              backgroundColor: '#d7e9fa',
+            }
+          }}
         >
           Contact Us
         </Button>
       </Container>
+      {/* Add subtle pattern overlay */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(rgba(240,248,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          pointerEvents: 'none'
+        }}
+      />
     </Box>
   );
 };

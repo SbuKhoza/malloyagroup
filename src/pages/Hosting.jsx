@@ -45,7 +45,7 @@ const HostingFeatures = () => {
   ];
 
   return (
-    <Box sx={{ py: 8, backgroundColor: 'background.default' }}>
+    <Box sx={{ py: 8, backgroundColor: '#F0F8FF' }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
@@ -54,17 +54,18 @@ const HostingFeatures = () => {
             gutterBottom
             sx={{ 
               fontWeight: 700,
-              mb: 2
+              mb: 2,
+              color: '#002244'
             }}
           >
             Premium Hosting Features
           </Typography>
           <Typography 
             variant="h5" 
-            color="text.secondary"
             sx={{ 
               maxWidth: 800,
-              mx: 'auto' 
+              mx: 'auto',
+              color: 'rgba(0,34,68,0.8)'
             }}
           >
             Our web hosting is optimized for performance, security, and reliability
@@ -81,26 +82,27 @@ const HostingFeatures = () => {
                   height: '100%',
                   textAlign: 'center',
                   borderRadius: 2,
-                  backgroundColor: 'background.paper',
-                  transition: 'transform 0.3s ease',
+                  backgroundColor: 'white',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  border: '1px solid rgba(0,34,68,0.1)',
                   '&:hover': {
                     transform: 'translateY(-8px)',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                    boxShadow: '0 10px 30px rgba(0,34,68,0.1)'
                   }
                 }}
               >
                 <Box sx={{ 
-                  color: 'primary.main', 
+                  color: '#002244', 
                   mb: 2,
                   display: 'flex',
                   justifyContent: 'center'
                 }}>
                   {feature.icon}
                 </Box>
-                <Typography variant="h5" component="h3" gutterBottom fontWeight="bold">
+                <Typography variant="h5" component="h3" gutterBottom fontWeight="bold" color="#002244">
                   {feature.title}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography color="rgba(0,34,68,0.8)">
                   {feature.description}
                 </Typography>
               </Paper>
@@ -137,7 +139,7 @@ const HostingFAQ = () => {
   ];
 
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 8, backgroundColor: 'white' }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
@@ -146,17 +148,18 @@ const HostingFAQ = () => {
             gutterBottom
             sx={{ 
               fontWeight: 700,
-              mb: 2
+              mb: 2,
+              color: '#002244'
             }}
           >
             Frequently Asked Questions
           </Typography>
           <Typography 
             variant="h5" 
-            color="text.secondary"
             sx={{ 
               maxWidth: 800,
-              mx: 'auto' 
+              mx: 'auto',
+              color: 'rgba(0,34,68,0.8)'
             }}
           >
             Find answers to common questions about our hosting services
@@ -170,8 +173,7 @@ const HostingFAQ = () => {
               elevation={0}
               sx={{ 
                 mb: 2, 
-                border: '1px solid',
-                borderColor: 'divider',
+                border: '1px solid rgba(0,34,68,0.15)',
                 borderRadius: '8px !important',
                 '&:before': {
                   display: 'none',
@@ -180,17 +182,20 @@ const HostingFAQ = () => {
               }}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon sx={{ color: '#002244' }} />}
                 sx={{ 
-                  backgroundColor: 'background.paper'
+                  backgroundColor: '#F0F8FF',
+                  '&:hover': {
+                    backgroundColor: 'rgba(240,248,255,0.7)'
+                  }
                 }}
               >
-                <Typography variant="h6" fontWeight="medium">
+                <Typography variant="h6" fontWeight="medium" color="#002244">
                   {faq.question}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography color="text.secondary">
+                <Typography color="rgba(0,34,68,0.8)">
                   {faq.answer}
                 </Typography>
               </AccordionDetails>
@@ -206,10 +211,12 @@ const HostingCTA = () => {
   return (
     <Box 
       sx={{
-        backgroundColor: 'primary.main',
+        background: 'linear-gradient(135deg, #002244 0%, #001a33 100%)',
         color: 'white',
         py: 8,
-        textAlign: 'center'
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <Container maxWidth="md">
@@ -237,14 +244,34 @@ const HostingCTA = () => {
         </Typography>
         <Button 
           variant="contained" 
-          color="secondary"
           size="large"
           href="#hosting-plans"
-          sx={{ px: 5, py: 1.5 }}
+          sx={{ 
+            px: 5, 
+            py: 1.5, 
+            backgroundColor: '#F0F8FF',
+            color: '#002244',
+            '&:hover': {
+              backgroundColor: '#d7e9fa',
+            }
+          }}
         >
           Choose a Plan
         </Button>
       </Container>
+      {/* Add subtle pattern overlay as in Home page */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(rgba(240,248,255,0.05) 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+          pointerEvents: 'none'
+        }}
+      />
     </Box>
   );
 };
