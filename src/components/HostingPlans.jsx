@@ -11,11 +11,15 @@ import {
 } from '@mui/material';
 
 const PricingCard = ({ plan, isPopular }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  
   return (
     <Paper
       elevation={0}
       sx={{ 
         height: '100%',
+        width: '100%', // Ensure card takes full width of container
         borderRadius: 2,
         border: '1px solid',
         borderColor: isPopular ? 'secondary.main' : 'divider',
@@ -212,7 +216,7 @@ const HostingPlans = () => {
           pointerEvents: 'none'
         }}
       />
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}> {/* Adjusted padding for mobile */}
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
             variant="h2" 
@@ -221,7 +225,8 @@ const HostingPlans = () => {
             sx={{ 
               fontWeight: 700,
               mb: 2,
-              color: '#002244' // Navy text
+              color: '#002244', // Navy text
+              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } // Responsive font size
             }}
           >
             Hosting Plans
@@ -233,7 +238,8 @@ const HostingPlans = () => {
               maxWidth: 800,
               mx: 'auto',
               mb: 2,
-              color: 'rgba(0,34,68,0.8)' // Semi-transparent navy
+              color: 'rgba(0,34,68,0.8)', // Semi-transparent navy
+              fontSize: { xs: '1.1rem', sm: '1.25rem', md: '1.5rem' } // Responsive font size
             }}
           >
             Fast, secure, and reliable web hosting for your business
@@ -249,25 +255,45 @@ const HostingPlans = () => {
           </Typography>
         </Box>
 
-        <Grid container spacing={3} justifyContent="center">
-          {hostingPlans.map((plan, index) => (
-            <Grid 
-              item 
-              xs={12} 
-              sm={6} 
-              md={3} 
-              key={index}
-              sx={{
-                display: 'flex'
-              }}
-            >
-              <PricingCard 
-                plan={plan} 
-                isPopular={plan.popular} 
-              />
-            </Grid>
-          ))}
-        </Grid>
+        {/* Mobile view - single column layout with centered cards */}
+        {isMobile ? (
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center',
+            gap: 3
+          }}>
+            {hostingPlans.map((plan, index) => (
+              <Box 
+                key={index}
+                sx={{ 
+                  width: '100%', 
+                  maxWidth: '350px' // Set maximum width for mobile cards
+                }}
+              >
+                <PricingCard plan={plan} isPopular={plan.popular} />
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          // Desktop view - grid layout
+          <Grid container spacing={3} justifyContent="center">
+            {hostingPlans.map((plan, index) => (
+              <Grid 
+                item 
+                xs={12} 
+                sm={6} 
+                md={3} 
+                key={index}
+                sx={{
+                  display: 'flex'
+                }}
+              >
+                <PricingCard plan={plan} isPopular={plan.popular} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
 
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Typography 
