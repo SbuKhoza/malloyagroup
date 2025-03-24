@@ -173,7 +173,7 @@ const Footer = () => {
               { text: 'About Us', path: '/about' },
               { text: 'Contact', path: '/contact' },
               { text: 'Hosting Plans', path: '/hosting' },
-              { text: 'Blog', path: '#' }
+              { text: 'Careers', path: '#' }
             ].map((item, index) => (
               <Link 
                 key={index}
@@ -210,33 +210,36 @@ const Footer = () => {
             </Typography>
             <Box sx={{ display: 'flex', mb: 2 }}>
               <LocationOnIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
-              <Typography 
-                variant="body2" 
-                sx={{ 
+              <Typography
+                variant="body2"
+                sx={{
                   color: 'rgba(0,34,68,0.75)',
                   fontSize: '0.9rem'
                 }}
               >
-                123 Business Street, Cape Town, South Africa
+                Diepkloof 319-Iq,
+                Soweto,
+                Johannesburg,
+                South Africa
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 2 }}>
               <PhoneIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
-              <Typography 
-                variant="body2" 
-                sx={{ 
+              <Typography
+                variant="body2"
+                sx={{
                   color: 'rgba(0,34,68,0.75)',
                   fontSize: '0.9rem'
                 }}
               >
-                +27 12 345 6789
+                +27 78 029 6288
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', mb: 2 }}>
               <EmailIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
-              <Typography 
-                variant="body2" 
-                sx={{ 
+              <Typography
+                variant="body2"
+                sx={{
                   color: 'rgba(0,34,68,0.75)',
                   fontSize: '0.9rem'
                 }}
