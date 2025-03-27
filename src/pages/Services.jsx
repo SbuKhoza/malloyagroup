@@ -17,6 +17,9 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ComputerIcon from '@mui/icons-material/Computer';
+import DevicesIcon from '@mui/icons-material/Devices';
+import StorageIcon from '@mui/icons-material/Storage';
+import BrushIcon from '@mui/icons-material/Brush';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import BugReportIcon from '@mui/icons-material/BugReport';
@@ -56,10 +59,9 @@ const ServicesHero = () => {
             opacity: 0.9
           }}
         >
-          We offer comprehensive digital solutions to help your business thrive in the digital landscape
+          End-to-end digital solutions for your business
         </Typography>
       </Container>
-      {/* Add subtle pattern overlay as in Home page */}
       <Box
         sx={{
           position: 'absolute',
@@ -72,6 +74,79 @@ const ServicesHero = () => {
           pointerEvents: 'none'
         }}
       />
+    </Box>
+  );
+};
+
+const ServicesList = () => {
+  const services = [
+    {
+      title: 'Website Development',
+      description: 'Custom responsive websites built to match your brand and meet your business goals.',
+      icon: ComputerIcon,
+      link: '/services'
+    },
+    {
+      title: 'Mobile Apps',
+      description: 'Native and cross-platform mobile applications for iOS and Android devices.',
+      icon: DevicesIcon,
+      link: '/services'
+    },
+    {
+      title: 'Web Hosting',
+      description: 'Fast, secure and reliable hosting solutions with 99.9% uptime guarantee.',
+      icon: StorageIcon,
+      link: '/services'
+    },
+    {
+      title: 'UI/UX Consultation',
+      description: 'Expert consultation to enhance user experience and interface design.',
+      icon: BrushIcon,
+      link: '/services'
+    }
+  ];
+
+  return (
+    <Box sx={{ py: 8, backgroundColor: '#F0F8FF' }}>
+      <Container maxWidth="lg">
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography 
+            variant="h2" 
+            component="h2" 
+            gutterBottom
+            sx={{ 
+              fontWeight: 700,
+              mb: 2,
+              color: '#002244'
+            }}
+          >
+            Our Services
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              maxWidth: 800,
+              mx: 'auto',
+              color: 'rgba(0,34,68,0.8)'
+            }}
+          >
+            End-to-end digital solutions for your business
+          </Typography>
+        </Box>
+
+        <Grid container spacing={4}>
+          {services.map((service, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <ServiceCard 
+                title={service.title}
+                description={service.description}
+                icon={service.icon}
+                link={service.link}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
     </Box>
   );
 };
@@ -112,8 +187,6 @@ const WebDevelopment = () => {
                 'Standard 4-page Website Package - R3,500',
                 'Mobile-friendly & responsive design',
                 'Basic UI customization & SEO optimization',
-                'E-commerce integration available',
-                'Content Management System integration'
               ].map((item, index) => (
                 <ListItem key={index} disableGutters sx={{ py: 1 }}>
                   <ListItemIcon sx={{ minWidth: 36 }}>
@@ -519,7 +592,6 @@ const ServicesCTA = () => {
           Contact Us
         </Button>
       </Container>
-      {/* Add subtle pattern overlay */}
       <Box
         sx={{
           position: 'absolute',
@@ -540,6 +612,7 @@ const Services = () => {
   return (
     <>
       <ServicesHero />
+      <ServicesList />
       <WebDevelopment />
       <MobileAppDevelopment />
       <UXConsultation />
