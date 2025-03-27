@@ -12,9 +12,9 @@ import {
   InputLabel,
   Select,
   FormHelperText,
-  Divider,
   Snackbar,
   Alert,
+  CircularProgress,
   useTheme,
   useMediaQuery
 } from '@mui/material';
@@ -185,7 +185,12 @@ const ContactForm = () => {
   });
   
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState({
+    submitting: false,
+    success: false,
+    error: null
+  });
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -239,30 +244,71 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Reset previous status
+    setStatus({ submitting: false, success: false, error: null });
+    
     if (validateForm()) {
-      // Here you would typically send the form data to your backend
-      console.log('Form submitted:', formData);
+      // Start submission process
+      setStatus({ submitting: true, success: false, error: null });
       
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        service: '',
-        message: ''
-      });
-      
-      // Show success message
-      setSubmitted(true);
+      try {
+        // Prepare email data
+        const emailData = {
+          to: 'info@malloyagroup.co.za',
+          subject: `New Contact Form: ${formData.subject}`,
+          body: `
+            Name: ${formData.name}
+            Email: ${formData.email}
+            Phone: ${formData.phone || 'Not provided'}
+            Service of Interest: ${formData.service || 'Not specified'}
+            
+            Message:
+            ${formData.message}
+          `
+        };
+        
+        // Simulate email sending (replace with actual email service)
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(emailData)
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to send email');
+        }
+        
+        // Success handling
+        setStatus({ submitting: false, success: true, error: null });
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          service: '',
+          message: ''
+        });
+      } catch (error) {
+        // Error handling
+        setStatus({ 
+          submitting: false, 
+          success: false, 
+          error: 'Failed to send message. Please try again later.' 
+        });
+        console.error('Submission error:', error);
+      }
     }
   };
 
-  const handleSnackbarClose = () => {
-    setSubmitted(false);
+  const handleCloseAlert = () => {
+    setStatus(prev => ({ ...prev, success: false, error: null }));
   };
 
   return (
@@ -397,6 +443,7 @@ const ContactForm = () => {
                   type="submit"
                   variant="contained" 
                   size="large"
+                  disabled={status.submitting}
                   sx={{ 
                     px: 5, 
                     py: 1.5, 
@@ -407,21 +454,46 @@ const ContactForm = () => {
                     }
                   }}
                 >
-                  Send Message
+                  {status.submitting ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : (
+                    'Send Message'
+                  )}
                 </Button>
               </Grid>
             </Grid>
           </form>
         </Paper>
         
+        {/* Success Alert */}
         <Snackbar 
-          open={submitted} 
+          open={status.success} 
           autoHideDuration={6000} 
-          onClose={handleSnackbarClose}
+          onClose={handleCloseAlert}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
-          <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+          <Alert 
+            onClose={handleCloseAlert} 
+            severity="success" 
+            sx={{ width: '100%' }}
+          >
             Your message has been sent successfully! We'll get back to you soon.
+          </Alert>
+        </Snackbar>
+
+        {/* Error Alert */}
+        <Snackbar 
+          open={!!status.error} 
+          autoHideDuration={6000} 
+          onClose={handleCloseAlert}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert 
+            onClose={handleCloseAlert} 
+            severity="error" 
+            sx={{ width: '100%' }}
+          >
+            {status.error || 'An unexpected error occurred. Please try again.'}
           </Alert>
         </Snackbar>
       </Container>

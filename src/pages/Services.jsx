@@ -23,7 +23,10 @@ import BrushIcon from '@mui/icons-material/Brush';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import BugReportIcon from '@mui/icons-material/BugReport';
-
+import devImage from '../assets/dev.jpg'; 
+import appImage from '../assets/app.jpg';
+import uiImage from '../assets/ui.jpg';
+import testImage from '../assets/test.jpg'; // Placeholder for testing services image
 import ServiceCard from '../components/ServiceCard';
 
 const ServicesHero = () => {
@@ -157,9 +160,9 @@ const WebDevelopment = () => {
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
-            <Box
-              component="img"
-              src="/api/placeholder/600/400"
+            <Box //dev image
+              component="img" 
+              src={devImage}
               alt="Web Development"
               sx={{ 
                 width: '100%',
@@ -276,7 +279,7 @@ const MobileAppDevelopment = () => {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/api/placeholder/600/400"
+              src={appImage}
               alt="Mobile App Development"
               sx={{ 
                 width: '100%',
@@ -299,7 +302,7 @@ const UXConsultation = () => {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/api/placeholder/600/400"
+              src={uiImage}
               alt="UI/UX Consultation"
               sx={{ 
                 width: '100%',
@@ -418,7 +421,7 @@ const TestingServices = () => {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/api/placeholder/600/400"
+              src={testImage}
               alt="Testing Services"
               sx={{ 
                 width: '100%',
