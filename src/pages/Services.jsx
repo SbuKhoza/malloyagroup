@@ -187,7 +187,10 @@ const WebDevelopment = () => {
             
             <List disablePadding>
               {[
-                'Standard 4-page Website Package - R3,500',
+                'From a Standard 4-page Website to a Full-fledged E-commerce Store',
+                'Custom CMS development',
+                'Booking systems & payment gateways',
+                'Appointment scheduling & user management',
                 'Mobile-friendly & responsive design',
                 'Basic UI customization & SEO optimization',
               ].map((item, index) => (

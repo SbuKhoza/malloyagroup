@@ -209,9 +209,6 @@ const WebsitePackage = () => {
             <Typography variant="h3" component="h2" gutterBottom fontWeight="bold">
               Standard Website Package
             </Typography>
-            <Typography variant="h4" sx={{ mb: 2, fontWeight: 'medium', color: '#F0F8FF' }}>
-              R3,500
-            </Typography>
             <Typography variant="h6" gutterBottom>
               For a 4-page website with essential features
             </Typography>
@@ -242,7 +239,7 @@ const WebsitePackage = () => {
             <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
               Timeline: 3-5 business days
               <br />
-              Additional Pages: R500 per page
+              Additional pages available upon request
             </Typography>
             <Button 
               variant="contained" 
@@ -272,9 +269,6 @@ const WebsitePackage = () => {
             }}>
               <Typography variant="h4" component="h3" gutterBottom fontWeight="bold">
                 E-Commerce Add-On
-              </Typography>
-              <Typography variant="h5" sx={{ mb: 2, fontWeight: 'medium', color: '#F0F8FF' }}>
-                R6,000
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
                 Transform your website into a fully-functional online store:
@@ -350,16 +344,6 @@ const CMSAddOn = () => {
                 CMS Add-On
               </Typography>
               <Typography 
-                variant="h5" 
-                sx={{ 
-                  mb: 3, 
-                  color: '#002244',
-                  fontWeight: 'medium'
-                }}
-              >
-                R3,000
-              </Typography>
-              <Typography 
                 variant="body1" 
                 sx={{ 
                   mb: 3, 
@@ -403,7 +387,7 @@ const CMSAddOn = () => {
               >
                 <Box component="span" sx={{ mr: 1, color: '#002244', fontWeight: 'bold' }}>📌</Box>
                 <Typography variant="body2" sx={{ color: 'rgba(0,34,68,0.8)' }}>
-                  <strong>Additional CMS-powered pages:</strong> R500 per page <br/> <strong> Up to 5 days for integration</strong>
+                  <strong>Additional CMS-powered pages available</strong> <br/> <strong>Up to 5 days for integration</strong>
                 </Typography>
               </Box>
             </Box>
@@ -487,26 +471,6 @@ const CMSAddOn = () => {
                   </Box>
                 </Grid>
               </Grid>
-              
-              <Box sx={{ mt: 4 }}>
-                {/* <Button 
-                  variant="contained" 
-                  size="large"
-                  component={RouterLink}
-                  to="/contact"
-                  sx={{ 
-                    px: 4, 
-                    py: 1.5, 
-                    backgroundColor: '#002244',
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: '#001a33',
-                    }
-                  }}
-                >
-                  Learn More
-                </Button> */}
-              </Box>
             </Box>
           </Grid>
         </Grid>
