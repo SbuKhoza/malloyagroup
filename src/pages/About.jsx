@@ -93,13 +93,13 @@ const OurStory = () => {
               Our Story
             </Typography>
             <Typography variant="body1" paragraph>
-              Founded in 2018, MALLOYA GROUP started with a simple mission: to help businesses in South Africa succeed in the digital world by providing high-quality, affordable web solutions.
+              Based in Soweto, South Africa, MALLOYA GROUP specializes in developing high-quality websites and mobile applications for Android and iOS, as well as providing UX/UI design services that ensure user-friendly digital experiences.
             </Typography>
             <Typography variant="body1" paragraph>
-              What began as a small team of web developers in Cape Town has grown into a full-service digital agency offering comprehensive solutions including website development, mobile applications, UI/UX design, and hosting services.
+              We deliver custom-built, fast, and optimized web and mobile solutions for superior performance. Our UX/UI design expertise ensures user-friendly experiences that boost client satisfaction and engagement.
             </Typography>
             <Typography variant="body1" paragraph>
-              We've helped over 200 businesses across South Africa establish and grow their online presence, and we pride ourselves on building long-lasting relationships with our clients based on trust, reliability, and exceptional results.
+              What sets us apart is our design approach that incorporates design thinking principles, making navigation effortless for end users. Our comprehensive service offerings include website/app development and UI/UX consultancy, specifically catering to startups and growing businesses that need affordable, high-quality web solutions.
             </Typography>
           </Grid>
         </Grid>
@@ -194,110 +194,6 @@ const CoreValues = () => {
                 <Typography color="text.secondary">
                   {value.description}
                 </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </Box>
-  );
-};
-
-const MeetTheTeam = () => {
-  const team = [
-    {
-      name: "David Malloya",
-      position: "Founder & CEO",
-      bio: "With over 15 years of experience in web development and digital marketing, David founded MALLOYA GROUP to help businesses leverage technology for growth.",
-      image: "/api/placeholder/200/200"
-    },
-    {
-      name: "Amara Ndlovu",
-      position: "Lead Developer",
-      bio: "Amara leads our development team with expertise in React, Node.js, and mobile app development, ensuring technical excellence in all projects.",
-      image: "/api/placeholder/200/200"
-    },
-    {
-      name: "Michael Chen",
-      position: "UI/UX Designer",
-      bio: "Michael brings creativity and user-focused design principles to create intuitive and engaging interfaces for our clients' digital products.",
-      image: "/api/placeholder/200/200"
-    },
-    {
-      name: "Nomsa Khumalo",
-      position: "Project Manager",
-      bio: "Nomsa ensures that all our projects are delivered on time and within budget while maintaining clear communication with clients.",
-      image: "/api/placeholder/200/200"
-    }
-  ];
-
-  return (
-    <Box sx={{ py: 8, backgroundColor: 'white' }}>
-      <Container maxWidth="lg">
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Typography 
-            variant="h2" 
-            component="h2" 
-            gutterBottom
-            sx={{ 
-              fontWeight: 700,
-              mb: 2,
-              color: '#002244' // Navy text like in Home
-            }}
-          >
-            Meet Our Team
-          </Typography>
-          <Typography 
-            variant="h5" 
-            sx={{ 
-              maxWidth: 800,
-              mx: 'auto',
-              color: 'rgba(0,34,68,0.8)' // Semi-transparent navy like in Home
-            }}
-          >
-            The talented professionals behind our success
-          </Typography>
-        </Box>
-
-        <Grid container spacing={4}>
-          {team.map((member, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Paper 
-                elevation={0}
-                sx={{ 
-                  height: '100%',
-                  borderRadius: 2,
-                  overflow: 'hidden',
-                  border: '1px solid rgba(0,34,68,0.1)',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                    borderColor: 'rgba(0,34,68,0.2)'
-                  }
-                }}
-              >
-                <Box
-                  component="img"
-                  src={member.image}
-                  alt={member.name}
-                  sx={{ 
-                    width: '100%',
-                    height: 260,
-                    objectFit: 'cover'
-                  }}
-                />
-                <Box sx={{ p: 3 }}>
-                  <Typography variant="h5" component="h3" fontWeight="bold" gutterBottom color="#002244">
-                    {member.name}
-                  </Typography>
-                  <Typography variant="subtitle1" color="#002244" gutterBottom>
-                    {member.position}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {member.bio}
-                  </Typography>
-                </Box>
               </Paper>
             </Grid>
           ))}
@@ -462,7 +358,6 @@ const About = () => {
       <AboutHero />
       <OurStory />
       <CoreValues />
-      <MeetTheTeam />
       <WhyChooseUs />
       <AboutCTA />
     </>
