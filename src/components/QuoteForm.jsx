@@ -339,7 +339,7 @@ function QuoteForm() {
             <Typography
               variant="h6"
               gutterBottom
-              sx={{ fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" }, color: "primary.main", fontWeight: "bold" }}
+              sx={{ fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" }, color: "#3a0ca3", fontWeight: "bold" }}
             >
               Personal Information
             </Typography>
@@ -358,6 +358,17 @@ function QuoteForm() {
                 "& .MuiOutlinedInput-input": {
                   fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
                   py: { xs: 1, sm: 1.5 },
+                },
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#4361ee",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#3a0ca3",
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#3a0ca3",
                 },
               }}
             />
@@ -378,6 +389,17 @@ function QuoteForm() {
                   fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
                   py: { xs: 1, sm: 1.5 },
                 },
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#4361ee",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#3a0ca3",
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#3a0ca3",
+                },
               }}
             />
             <TextField
@@ -396,6 +418,17 @@ function QuoteForm() {
                   fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
                   py: { xs: 1, sm: 1.5 },
                 },
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#4361ee",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#3a0ca3",
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#3a0ca3",
+                },
               }}
             />
           </Box>
@@ -407,7 +440,7 @@ function QuoteForm() {
             <Typography
               variant="h6"
               gutterBottom
-              sx={{ fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" }, color: "primary.main", fontWeight: "bold" }}
+              sx={{ fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" }, color: "#3a0ca3", fontWeight: "bold" }}
             >
               Which services are you interested in?
             </Typography>
@@ -467,7 +500,7 @@ function QuoteForm() {
                   gutterBottom
                   sx={{
                     fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
-                    color: "primary.main",
+                    color: "#3a0ca3",
                     fontWeight: "bold",
                   }}
                 >
@@ -712,7 +745,7 @@ function QuoteForm() {
                   gutterBottom
                   sx={{
                     fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
-                    color: "primary.main",
+                    color: "#3a0ca3",
                     fontWeight: "bold",
                   }}
                 >
@@ -853,7 +886,7 @@ function QuoteForm() {
                   gutterBottom
                   sx={{
                     fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
-                    color: "primary.main",
+                    color: "#3a0ca3",
                     fontWeight: "bold",
                   }}
                 >
@@ -912,16 +945,34 @@ function QuoteForm() {
             <Typography
               variant="h6"
               gutterBottom
-              sx={{ fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" }, color: "primary.main", fontWeight: "bold" }}
+              sx={{ fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" }, color: "#3a0ca3", fontWeight: "bold" }}
             >
               Review Your Quote Request
             </Typography>
 
-            <Paper variant="outlined" sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, borderRadius: 1, boxShadow: 1 }}>
+            <Paper
+              variant="outlined"
+              sx={{
+                p: { xs: 1.5, sm: 2 },
+                mb: 2,
+                borderRadius: 1,
+                boxShadow: 1,
+                borderLeft: "4px solid #4361ee",
+                transition: "transform 0.2s ease",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 4px 12px rgba(67, 97, 238, 0.15)",
+                },
+              }}
+            >
               <Typography
                 variant="subtitle1"
                 gutterBottom
-                sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: "bold", color: "primary.main" }}
+                sx={{
+                  fontSize: { xs: "0.9rem", sm: "1rem" },
+                  fontWeight: "bold",
+                  color: "#3a0ca3",
+                }}
               >
                 Personal Information
               </Typography>
@@ -930,11 +981,29 @@ function QuoteForm() {
               <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>Phone: {formData.phone}</Typography>
             </Paper>
 
-            <Paper variant="outlined" sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, borderRadius: 1, boxShadow: 1 }}>
+            <Paper
+              variant="outlined"
+              sx={{
+                p: { xs: 1.5, sm: 2 },
+                mb: 2,
+                borderRadius: 1,
+                boxShadow: 1,
+                borderLeft: "4px solid #4361ee",
+                transition: "transform 0.2s ease",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 4px 12px rgba(67, 97, 238, 0.15)",
+                },
+              }}
+            >
               <Typography
                 variant="subtitle1"
                 gutterBottom
-                sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: "bold", color: "primary.main" }}
+                sx={{
+                  fontSize: { xs: "0.9rem", sm: "1rem" },
+                  fontWeight: "bold",
+                  color: "#3a0ca3",
+                }}
               >
                 Services Requested
               </Typography>
@@ -947,11 +1016,29 @@ function QuoteForm() {
             </Paper>
 
             {formData.services.website && (
-              <Paper variant="outlined" sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, borderRadius: 1, boxShadow: 1 }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: { xs: 1.5, sm: 2 },
+                  mb: 2,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  borderLeft: "4px solid #4361ee",
+                  transition: "transform 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(67, 97, 238, 0.15)",
+                  },
+                }}
+              >
                 <Typography
                   variant="subtitle1"
                   gutterBottom
-                  sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: "bold", color: "primary.main" }}
+                  sx={{
+                    fontSize: { xs: "0.9rem", sm: "1rem" },
+                    fontWeight: "bold",
+                    color: "#3a0ca3",
+                  }}
                 >
                   Website Development Details
                 </Typography>
@@ -994,11 +1081,29 @@ function QuoteForm() {
             )}
 
             {formData.services.app && (
-              <Paper variant="outlined" sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, borderRadius: 1, boxShadow: 1 }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: { xs: 1.5, sm: 2 },
+                  mb: 2,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  borderLeft: "4px solid #4361ee",
+                  transition: "transform 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(67, 97, 238, 0.15)",
+                  },
+                }}
+              >
                 <Typography
                   variant="subtitle1"
                   gutterBottom
-                  sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: "bold", color: "primary.main" }}
+                  sx={{
+                    fontSize: { xs: "0.9rem", sm: "1rem" },
+                    fontWeight: "bold",
+                    color: "#3a0ca3",
+                  }}
                 >
                   App Development Details
                 </Typography>
@@ -1025,11 +1130,29 @@ function QuoteForm() {
             )}
 
             {formData.services.hosting && (
-              <Paper variant="outlined" sx={{ p: { xs: 1.5, sm: 2 }, mb: 2, borderRadius: 1, boxShadow: 1 }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: { xs: 1.5, sm: 2 },
+                  mb: 2,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  borderLeft: "4px solid #4361ee",
+                  transition: "transform 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(67, 97, 238, 0.15)",
+                  },
+                }}
+              >
                 <Typography
                   variant="subtitle1"
                   gutterBottom
-                  sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: "bold", color: "primary.main" }}
+                  sx={{
+                    fontSize: { xs: "0.9rem", sm: "1rem" },
+                    fontWeight: "bold",
+                    color: "#3a0ca3",
+                  }}
                 >
                   Hosting Package
                 </Typography>
@@ -1069,12 +1192,36 @@ function QuoteForm() {
   if (submitSuccess) {
     return (
       <Container maxWidth="md" sx={{ mt: 4, px: { xs: 1, sm: 2, md: 3 } }}>
-        <Paper sx={{ p: { xs: 2, sm: 3, md: 4 }, textAlign: "center", borderRadius: 2, boxShadow: 3 }}>
+        <Paper
+          sx={{
+            p: { xs: 2, sm: 3, md: 4 },
+            textAlign: "center",
+            borderRadius: 2,
+            boxShadow: 3,
+            position: "relative",
+            overflow: "hidden",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "6px",
+              background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+            },
+          }}
+        >
           <Typography
             variant="h4"
             gutterBottom
-            color="primary"
-            sx={{ fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" }, fontWeight: "bold" }}
+            sx={{
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+              fontWeight: "bold",
+              background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
           >
             Thank You!
           </Typography>
@@ -1125,6 +1272,18 @@ function QuoteForm() {
                 hostingPackage: "",
               })
             }}
+            sx={{
+              background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+              color: "white",
+              fontWeight: 600,
+              boxShadow: "0 4px 10px rgba(67, 97, 238, 0.3)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                opacity: 0.9,
+                transform: "translateY(-2px)",
+                boxShadow: "0 6px 15px rgba(67, 97, 238, 0.4)",
+              },
+            }}
           >
             Submit Another Quote
           </Button>
@@ -1135,7 +1294,24 @@ function QuoteForm() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, px: { xs: 1, sm: 2, md: 3 } }}>
-      <Paper sx={{ p: { xs: 1, sm: 2, md: 3 }, borderRadius: 2, boxShadow: 3 }}>
+      <Paper
+        sx={{
+          p: { xs: 1, sm: 2, md: 3 },
+          borderRadius: 2,
+          boxShadow: 3,
+          position: "relative",
+          overflow: "hidden",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "6px",
+            background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+          },
+        }}
+      >
         <Typography
           variant="h4"
           align="center"
@@ -1143,7 +1319,10 @@ function QuoteForm() {
           sx={{
             fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
             fontWeight: "bold",
-            color: "primary.main",
+            background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
             mt: 2,
           }}
         >
@@ -1170,6 +1349,12 @@ function QuoteForm() {
             "& .MuiSvgIcon-root": {
               fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.75rem" },
             },
+            "& .MuiStepIcon-root.Mui-active": {
+              color: "#4361ee",
+            },
+            "& .MuiStepIcon-root.Mui-completed": {
+              color: "#3a0ca3",
+            },
           }}
         >
           {steps.map((label) => (
@@ -1188,7 +1373,17 @@ function QuoteForm() {
         )}
 
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3, px: 1 }}>
-          <Button disabled={activeStep === 0} onClick={handleBack} sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              color: "#3a0ca3",
+              "&:hover": {
+                backgroundColor: "rgba(67, 97, 238, 0.05)",
+              },
+            }}
+          >
             Back
           </Button>
 
@@ -1203,6 +1398,14 @@ function QuoteForm() {
                   fontSize: { xs: "0.8rem", sm: "0.875rem" },
                   px: { xs: 2, sm: 3 },
                   py: { xs: 0.8, sm: 1 },
+                  background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  boxShadow: "0 4px 10px rgba(67, 97, 238, 0.3)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    opacity: 0.9,
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 6px 15px rgba(67, 97, 238, 0.4)",
+                  },
                 }}
               >
                 {loading ? <CircularProgress size={24} /> : "Submit Quote"}
@@ -1217,6 +1420,14 @@ function QuoteForm() {
                   fontSize: { xs: "0.8rem", sm: "0.875rem" },
                   px: { xs: 2, sm: 3 },
                   py: { xs: 0.8, sm: 1 },
+                  background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  boxShadow: "0 4px 10px rgba(67, 97, 238, 0.3)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    opacity: 0.9,
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 6px 15px rgba(67, 97, 238, 0.4)",
+                  },
                 }}
               >
                 Next

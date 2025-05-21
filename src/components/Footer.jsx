@@ -1,322 +1,348 @@
-import React from 'react';
-import { 
-  Box, 
-  Container, 
-  Grid, 
-  Typography, 
-  Link, 
-  IconButton,
-  Divider,
-  Stack,
-  Button,
-  useTheme,
-  useMediaQuery
-} from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
-import EmailIcon from '@mui/icons-material/Email';
+"use client"
+import { Box, Container, Grid, Typography, Link, IconButton, Divider, useMediaQuery, useTheme } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import InstagramIcon from "@mui/icons-material/Instagram"
+import EmailIcon from "@mui/icons-material/Email"
+import PhoneIcon from "@mui/icons-material/Phone"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
 
 const Footer = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const currentYear = new Date().getFullYear();
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+  const isSmallMobile = useMediaQuery("(max-width:425px)")
+
+  const currentYear = new Date().getFullYear()
 
   return (
     <Box
+      component="footer"
       sx={{
-        bgcolor: '#F0F8FF', // Light blue background matching drawer
-        color: '#002244', // Navy blue text matching navbar
-        py: { xs: 4, md: 6 },
-        borderTop: '1px solid',
-        borderColor: 'rgba(0,34,68,0.1)',
+        backgroundColor: "#1a1a2e",
+        color: "white",
+        pt: 6,
+        pb: 3,
+        position: "relative",
+        overflow: "hidden",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "6px",
+          background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+        },
       }}
     >
+      {/* Decorative elements */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "10%",
+          left: "5%",
+          width: "200px",
+          height: "200px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(67, 97, 238, 0) 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: "10%",
+          right: "5%",
+          width: "150px",
+          height: "150px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(67, 97, 238, 0) 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: '#002244', 
-                fontWeight: 700, 
-                letterSpacing: '-0.5px',
-                mb: 2
+            <Typography
+              variant="h6"
+              component={RouterLink}
+              to="/"
+              sx={{
+                fontWeight: 800,
+                mb: 3,
+                display: "inline-block",
+                background: "linear-gradient(135deg, #ffffff 0%, #b8c0ff 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                textDecoration: "none",
+                letterSpacing: "-0.5px",
+                fontSize: isSmallMobile ? "1.1rem" : "1.25rem",
+                
               }}
             >
               MALLOYA GROUP
             </Typography>
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                color: 'rgba(0,34,68,0.85)', 
-                mb: 2,
-                maxWidth: '95%'
-              }}
-            >
-              Your trusted partner for web development, mobile apps, and hosting solutions.
+            <Typography variant="body2" sx={{ mb: 2, color: "rgba(255,255,255,0.7)" }}>
+              Custom mobile & web solutions that power your business growth. We bring your digital ideas to life.
             </Typography>
-            <Stack direction="row" spacing={1}>
-              <IconButton 
-                size="small" 
-                sx={{ 
-                  color: '#002244',
-                  '&:hover': { 
-                    bgcolor: 'rgba(0,34,68,0.05)',
-                    color: 'rgba(0,34,68,0.7)' 
-                  }
+            <Box sx={{ mt: 2 }}>
+              <IconButton
+                aria-label="Facebook"
+                size="small"
+                sx={{
+                  mr: 1,
+                  color: "white",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  },
                 }}
-                aria-label="facebook"
               >
                 <FacebookIcon />
               </IconButton>
-              <IconButton 
-                size="small" 
-                sx={{ 
-                  color: '#002244',
-                  '&:hover': { 
-                    bgcolor: 'rgba(0,34,68,0.05)',
-                    color: 'rgba(0,34,68,0.7)' 
-                  }
+              <IconButton
+                aria-label="Twitter"
+                size="small"
+                sx={{
+                  mr: 1,
+                  color: "white",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  },
                 }}
-                aria-label="twitter"
               >
                 <TwitterIcon />
               </IconButton>
-              <IconButton 
-                size="small" 
-                sx={{ 
-                  color: '#002244',
-                  '&:hover': { 
-                    bgcolor: 'rgba(0,34,68,0.05)',
-                    color: 'rgba(0,34,68,0.7)' 
-                  }
+              <IconButton
+                aria-label="LinkedIn"
+                size="small"
+                sx={{
+                  mr: 1,
+                  color: "white",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  },
                 }}
-                aria-label="instagram"
-              >
-                <InstagramIcon />
-              </IconButton>
-              <IconButton 
-                size="small" 
-                sx={{ 
-                  color: '#002244',
-                  '&:hover': { 
-                    bgcolor: 'rgba(0,34,68,0.05)',
-                    color: 'rgba(0,34,68,0.7)' 
-                  }
-                }}
-                aria-label="linkedin"
               >
                 <LinkedInIcon />
               </IconButton>
-            </Stack>
-          </Grid>
-          
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: '#002244', 
-                fontWeight: 600,
-                fontSize: '1rem',
-                mb: 2
-              }}
-            >
-              Services
-            </Typography>
-            {[
-              { text: 'Website Development', path: '/services' },
-              { text: 'Mobile App Development', path: '/services' },
-              { text: 'Web Hosting', path: '/hosting' },
-              { text: 'UI/UX Consultation', path: '/services' },
-              { text: 'Testing Services', path: '/services' }
-            ].map((item, index) => (
-              <Link 
-                key={index}
-                component={RouterLink} 
-                to={item.path} 
-                sx={{ 
-                  color: 'rgba(0,34,68,0.75)', 
-                  display: 'block', 
-                  mb: 1.5,
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                  '&:hover': {
-                    color: '#002244',
-                  }
+              <IconButton
+                aria-label="Instagram"
+                size="small"
+                sx={{
+                  color: "white",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  },
                 }}
               >
-                {item.text}
-              </Link>
-            ))}
+                <InstagramIcon />
+              </IconButton>
+            </Box>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: '#002244', 
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
                 fontWeight: 600,
-                fontSize: '1rem',
-                mb: 2
+                mb: 3,
+                position: "relative",
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: "-8px",
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  borderRadius: "2px",
+                },
               }}
             >
               Quick Links
             </Typography>
-            {[
-              { text: 'Home', path: '/' },
-              { text: 'About Us', path: '/about' },
-              { text: 'Contact', path: '/contact' },
-              { text: 'Hosting Plans', path: '/hosting' },
-              { text: 'Careers', path: '#' }
-            ].map((item, index) => (
-              <Link 
-                key={index}
-                component={RouterLink} 
-                to={item.path} 
-                sx={{ 
-                  color: 'rgba(0,34,68,0.75)', 
-                  display: 'block', 
-                  mb: 1.5,
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                  '&:hover': {
-                    color: '#002244',
-                  }
-                }}
-              >
-                {item.text}
-              </Link>
-            ))}
+            <Box component="nav" sx={{ display: "flex", flexDirection: "column" }}>
+              {["Home", "Services", "Hosting", "About", "Contact"].map((item) => (
+                <Link
+                  key={item}
+                  component={RouterLink}
+                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  sx={{
+                    color: "rgba(255,255,255,0.7)",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      color: "white",
+                      transform: "translateX(5px)",
+                      display: "inline-block",
+                    },
+                  }}
+                >
+                  {item}
+                </Link>
+              ))}
+            </Box>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: '#002244', 
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
                 fontWeight: 600,
-                fontSize: '1rem',
-                mb: 2
+                mb: 3,
+                position: "relative",
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: "-8px",
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  borderRadius: "2px",
+                },
+              }}
+            >
+              Services
+            </Typography>
+            <Box component="nav" sx={{ display: "flex", flexDirection: "column" }}>
+              {["Web Development", "Mobile Apps", "Web Hosting", "UI/UX Design", "E-Commerce"].map((item) => (
+                <Link
+                  key={item}
+                  component={RouterLink}
+                  to="/services"
+                  sx={{
+                    color: "rgba(255,255,255,0.7)",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      color: "white",
+                      transform: "translateX(5px)",
+                      display: "inline-block",
+                    },
+                  }}
+                >
+                  {item}
+                </Link>
+              ))}
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                fontWeight: 600,
+                mb: 3,
+                position: "relative",
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: "-8px",
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  borderRadius: "2px",
+                },
               }}
             >
               Contact Us
             </Typography>
-            <Box sx={{ display: 'flex', mb: 2 }}>
-              <LocationOnIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'rgba(0,34,68,0.75)',
-                  fontSize: '0.9rem'
-                }}
-              >
-                Diepkloof 319-Iq,
-                Soweto,
-                Johannesburg,
-                South Africa
-              </Typography>
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: "flex", mb: 2 }}>
+                <LocationOnIcon sx={{ mr: 1, color: "#4361ee" }} />
+                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+                  Diepkloof 319-Iq, Soweto,
+                  <br />
+                  Johannesburg, South Africa
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", mb: 2 }}>
+                <EmailIcon sx={{ mr: 1, color: "#4361ee" }} />
+                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+                  <Link
+                    href="mailto:info@malloyagroup.com"
+                    sx={{
+                      color: "rgba(255,255,255,0.7)",
+                      textDecoration: "none",
+                      "&:hover": {
+                        color: "white",
+                      },
+                    }}
+                  >
+                    info@malloyagroup.com
+                  </Link>
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex" }}>
+                <PhoneIcon sx={{ mr: 1, color: "#4361ee" }} />
+                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+                  <Link
+                    href="tel:+27780296288"
+                    sx={{
+                      color: "rgba(255,255,255,0.7)",
+                      textDecoration: "none",
+                      "&:hover": {
+                        color: "white",
+                      },
+                    }}
+                  >
+                    +27 78 029 6288
+                  </Link>
+                </Typography>
+              </Box>
             </Box>
-            <Box sx={{ display: 'flex', mb: 2 }}>
-              <PhoneIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'rgba(0,34,68,0.75)',
-                  fontSize: '0.9rem'
-                }}
-              >
-                +27 78 029 6288
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', mb: 2 }}>
-              <EmailIcon sx={{ mr: 1.5, color: '#002244' }} fontSize="small" />
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'rgba(0,34,68,0.75)',
-                  fontSize: '0.9rem'
-                }}
-              >
-                info@malloyagroup.co.za
-              </Typography>
-            </Box>
-            
-            <Button
-              variant="contained"
-              component={RouterLink}
-              to="/contact"
-              fullWidth
-              sx={{ 
-                mt: 2,
-                py: 1,
-                backgroundColor: '#002244',
-                color: 'white',
-                fontWeight: 500,
-                borderRadius: '4px',
-                '&:hover': {
-                  backgroundColor: '#001a33',
-                }
-              }}
-            >
-              Get In Touch
-            </Button>
           </Grid>
         </Grid>
-        
-        <Divider sx={{ 
-          my: { xs: 3, md: 4 }, 
-          borderColor: 'rgba(0,34,68,0.1)' 
-        }} />
-        
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: { xs: 'center', sm: 'space-between' }, 
-          flexDirection: { xs: 'column', sm: 'row' },
-          alignItems: 'center',
-          gap: { xs: 2, sm: 0 }
-        }}>
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              color: 'rgba(0,34,68,0.6)',
-              textAlign: { xs: 'center', sm: 'left' }
-            }}
-          >
-            © {currentYear} MALLOYA GROUP. All rights reserved.
+
+        <Divider sx={{ my: 4, borderColor: "rgba(255,255,255,0.1)" }} />
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            justifyContent: "space-between",
+            alignItems: isMobile ? "center" : "flex-start",
+          }}
+        >
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.5)", textAlign: isMobile ? "center" : "left" }}>
+            © {currentYear} Malloya Group. All rights reserved.
           </Typography>
-          <Box sx={{ 
-            display: 'flex',
-            gap: { xs: 3, sm: 4 }
-          }}>
-            <Link 
-              href="#" 
-              sx={{ 
-                color: 'rgba(0,34,68,0.6)',
-                textDecoration: 'none',
-                fontSize: '0.85rem',
-                '&:hover': {
-                  color: '#002244',
-                }
+          <Box sx={{ display: "flex", mt: isMobile ? 2 : 0 }}>
+            <Link
+              component={RouterLink}
+              to="/privacy"
+              sx={{
+                color: "rgba(255,255,255,0.5)",
+                textDecoration: "none",
+                mx: 1,
+                "&:hover": {
+                  color: "white",
+                },
               }}
             >
               Privacy Policy
             </Link>
-            <Link 
-              href="#" 
-              sx={{ 
-                color: 'rgba(0,34,68,0.6)',
-                textDecoration: 'none',
-                fontSize: '0.85rem',
-                '&:hover': {
-                  color: '#002244',
-                }
+            <Link
+              component={RouterLink}
+              to="/terms"
+              sx={{
+                color: "rgba(255,255,255,0.5)",
+                textDecoration: "none",
+                mx: 1,
+                "&:hover": {
+                  color: "white",
+                },
               }}
             >
               Terms of Service
@@ -325,7 +351,7 @@ const Footer = () => {
         </Box>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

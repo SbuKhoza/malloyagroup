@@ -22,6 +22,7 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallMobile = useMediaQuery('(max-width:425px)');
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -38,6 +39,10 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const gradientStyle = {
+    background: 'linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)',
+  };
+
   const drawer = (
     <Box
       sx={{ 
@@ -51,11 +56,14 @@ const Navbar = () => {
     >
       <Box sx={{ 
         p: 3, 
-        backgroundColor: '#002244', 
+        ...gradientStyle, 
         color: 'white',
         mb: 2
       }}>
-        <Typography variant="h6" component="div" sx={{ fontWeight: 700 }}>
+        <Typography variant="h6" component="div" sx={{ 
+          fontWeight: 700,
+          fontSize: isSmallMobile ? '0.8rem' : '1.25rem'
+        }}>
           MALLOYA GROUP
         </Typography>
       </Box>
@@ -91,11 +99,12 @@ const Navbar = () => {
           to="/quote"
           sx={{ 
             py: 1.2,
-            backgroundColor: '#002244',
+            ...gradientStyle,
             color: 'white',
             '&:hover': {
-              backgroundColor: '#001a33',
-            }
+              opacity: 0.9,
+            },
+            boxShadow: '0 4px 10px rgba(67, 97, 238, 0.3)'
           }}
         >
           Get Started
@@ -121,10 +130,14 @@ const Navbar = () => {
             to="/"
             sx={{
               fontWeight: 800,
-              color: '#002244', // Navy blue from Home
+              background: 'linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               textDecoration: 'none',
               flexGrow: 1,
-              letterSpacing: '-0.5px'
+              letterSpacing: '-0.5px',
+              fontSize: isSmallMobile ? '0.8rem' : (isMobile ? '1.25rem' : '1.5rem'), // Further reduced size for very small screens
             }}
           >
             MALLOYA GROUP
@@ -138,7 +151,7 @@ const Navbar = () => {
                 onClick={toggleDrawer(true)}
                 sx={{ 
                   ml: 1,
-                  color: '#002244'
+                  color: '#3a0ca3'
                 }}
               >
                 <MenuIcon />
@@ -179,13 +192,14 @@ const Navbar = () => {
                   ml: 2,
                   px: 3,
                   py: 1,
-                  backgroundColor: '#002244', // Navy blue from Home
+                  ...gradientStyle,
                   color: 'white',
                   fontWeight: 500,
                   borderRadius: '4px',
                   '&:hover': {
-                    backgroundColor: '#001a33', // Slightly darker on hover
-                  }
+                    opacity: 0.9,
+                  },
+                  boxShadow: '0 4px 10px rgba(67, 97, 238, 0.3)'
                 }}
               >
                 Get Started

@@ -14,6 +14,8 @@ import Services from './pages/Services';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Quote from './pages/Quote';
+import Admin from './CMS/MalloyaAdmin';
+import MalloyaAdmin from './CMS/MalloyaAdmin';
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/quote" element={<Quote />} />
+          <Route path="/malloyaadmin" element={<MalloyaAdmin />} />
         </Routes>
         <Footer />
       </Router>

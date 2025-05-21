@@ -30,6 +30,7 @@ const Hero = () => {
         py: { xs: 5, md: 6 }, // Reduced height
         position: "relative",
         overflow: "hidden",
+       
       }}
     >
       <Container maxWidth="lg">
@@ -346,7 +347,7 @@ const WebsitePackage = () => {
               variant="contained"
               size="large"
               component={RouterLink}
-              to="/contact"
+              to="/quote"
               startIcon={<FaRocket />}
               sx={{
                 px: 4,
