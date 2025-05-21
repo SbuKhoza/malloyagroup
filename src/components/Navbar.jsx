@@ -88,7 +88,7 @@ const Navbar = () => {
           fullWidth
           variant="contained"
           component={RouterLink}
-          to="/contact"
+          to="/quote"
           sx={{ 
             py: 1.2,
             backgroundColor: '#002244',
@@ -174,7 +174,7 @@ const Navbar = () => {
               <Button
                 variant="contained"
                 component={RouterLink}
-                to="/contact"
+                to="/quote"
                 sx={{ 
                   ml: 2,
                   px: 3,
