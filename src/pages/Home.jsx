@@ -117,8 +117,6 @@ const Hero = () => {
               alt="Digital solutions"
               sx={{
                 width: "100%",
-                borderRadius: "12px",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.25)",
                 transform: "perspective(1000px) rotateY(-5deg)",
                 transition: "transform 0.5s ease",
                 "&:hover": {
