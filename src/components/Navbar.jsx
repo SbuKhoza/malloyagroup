@@ -107,7 +107,7 @@ const Navbar = () => {
             boxShadow: '0 4px 10px rgba(67, 97, 238, 0.3)'
           }}
         >
-          Get Started
+          Get a Quote
         </Button>
       </Box>
     </Box>
@@ -202,7 +202,7 @@ const Navbar = () => {
                   boxShadow: '0 4px 10px rgba(67, 97, 238, 0.3)'
                 }}
               >
-                Get Started
+                Get a Quote
               </Button>
             </Box>
           )}

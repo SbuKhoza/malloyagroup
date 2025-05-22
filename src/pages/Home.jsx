@@ -86,7 +86,7 @@ const Hero = () => {
                 }}
                 startIcon={<FaRocket />}
               >
-                Get Started
+                Get a Quote
               </Button>
               <Button
                 variant="outlined"
@@ -364,7 +364,7 @@ const WebsitePackage = () => {
                 },
               }}
             >
-              Get Started
+              Get a Quote
             </Button>
           </Grid>
           <Grid item xs={12} md={6}>
