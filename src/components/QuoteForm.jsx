@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Box,
   Stepper,
@@ -24,11 +24,11 @@ import {
   Divider,
   Alert,
   CircularProgress,
+  Chip,
 } from "@mui/material"
+import { Clear as ClearIcon, Folder as FolderIcon } from "@mui/icons-material"
 import { collection, doc, setDoc, getFirestore } from "firebase/firestore"
-
-// Import the firebase config from a different file
-// This assumes the firebase.js file is in the src directory
+import ProjectSelector from "./ProjectSelector"
 import { app } from "../firebase/config"
 
 const db = getFirestore(app)
@@ -172,17 +172,24 @@ const currencies = [
   { code: "AUD", label: "Australian Dollar (AUD)" },
 ]
 
-function QuoteForm() {
+function QuoteForm({ prefilledProject = null }) {
   const [activeStep, setActiveStep] = useState(0)
   const [loading, setLoading] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [submitError, setSubmitError] = useState("")
+  const [projectSelectorOpen, setProjectSelectorOpen] = useState(false)
+  const [selectedProject, setSelectedProject] = useState(prefilledProject)
 
   const [formData, setFormData] = useState({
     // Personal Information
     name: "",
     email: "",
     phone: "",
+    referralCode: "",
+
+    // Project Information
+    projectName: prefilledProject?.projectName || "",
+    projectId: prefilledProject?.projectId || "",
 
     // Service Selection
     services: {
@@ -223,11 +230,56 @@ function QuoteForm() {
     hostingPackage: "",
   })
 
+  useEffect(() => {
+    if (prefilledProject) {
+      setSelectedProject(prefilledProject)
+      setFormData((prev) => ({
+        ...prev,
+        projectName: prefilledProject.projectName,
+        projectId: prefilledProject.projectId,
+      }))
+    }
+  }, [prefilledProject])
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
+    })
+  }
+
+  const handleReferralCodeChange = (e) => {
+    let value = e.target.value.toUpperCase()
+
+    // Remove any non-alphanumeric characters
+    value = value.replace(/[^A-Z0-9]/g, "")
+
+    // Ensure first 3 characters are letters
+    if (value.length <= 3) {
+      value = value.replace(/[^A-Z]/g, "")
+    } else {
+      // Ensure characters after position 3 are numbers
+      const letters = value.substring(0, 3)
+      let numbers = value.substring(3).replace(/[^0-9]/g, "")
+
+      // Limit numbers to 3 digits
+      numbers = numbers.substring(0, 3)
+
+      value = letters + (numbers.length > 0 ? "-" + numbers : "")
+    }
+
+    // Limit total length to 7 characters (including hyphen)
+    if (value.includes("-")) {
+      const parts = value.split("-")
+      if (parts[1].length > 3) {
+        value = parts[0] + "-" + parts[1].substring(0, 3)
+      }
+    }
+
+    setFormData({
+      ...formData,
+      referralCode: value,
     })
   }
 
@@ -261,6 +313,34 @@ function QuoteForm() {
       : [...currentArray, value]
 
     handleNestedInputChange(category, field, newArray)
+  }
+
+  const handleProjectSelect = (project) => {
+    if (project) {
+      setSelectedProject(project)
+      setFormData((prev) => ({
+        ...prev,
+        projectName: project.projectName,
+        projectId: project.projectId,
+      }))
+    } else {
+      setSelectedProject(null)
+      setFormData((prev) => ({
+        ...prev,
+        projectName: "",
+        projectId: "",
+      }))
+    }
+    setProjectSelectorOpen(false)
+  }
+
+  const handleClearProject = () => {
+    setSelectedProject(null)
+    setFormData((prev) => ({
+      ...prev,
+      projectName: "",
+      projectId: "",
+    }))
   }
 
   const handleNext = () => {
@@ -343,6 +423,51 @@ function QuoteForm() {
             >
               Personal Information
             </Typography>
+
+            {/* Project Selection Section */}
+            <Paper
+              variant="outlined"
+              sx={{
+                p: 2,
+                mb: 3,
+                borderRadius: 2,
+                borderColor: selectedProject ? "#4361ee" : "#e0e0e0",
+                backgroundColor: selectedProject ? "#f8f9ff" : "transparent",
+              }}
+            >
+              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: "bold", color: "#3a0ca3" }}>
+                  Project Reference (Optional)
+                </Typography>
+                <Button
+                  variant="outlined"
+                  startIcon={<FolderIcon />}
+                  onClick={() => setProjectSelectorOpen(true)}
+                  size="small"
+                >
+                  Select Project
+                </Button>
+              </Box>
+
+              {selectedProject ? (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                  <Chip
+                    label={`${selectedProject.projectName} (${selectedProject.projectId})`}
+                    color="primary"
+                    onDelete={handleClearProject}
+                    deleteIcon={<ClearIcon />}
+                  />
+                  <Typography variant="caption" color="text.secondary">
+                    This project will be referenced in your quote
+                  </Typography>
+                </Box>
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  You can select one of your existing projects to reference in this quote request.
+                </Typography>
+              )}
+            </Paper>
+
             <TextField
               required
               fullWidth
@@ -410,6 +535,37 @@ function QuoteForm() {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
+              sx={{
+                "& .MuiInputLabel-root": {
+                  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+                },
+                "& .MuiOutlinedInput-input": {
+                  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+                  py: { xs: 1, sm: 1.5 },
+                },
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#4361ee",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#3a0ca3",
+                  },
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#3a0ca3",
+                },
+              }}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Referral Code (Optional)"
+              name="referralCode"
+              value={formData.referralCode}
+              onChange={handleReferralCodeChange}
+              placeholder="ABC-123"
+              inputProps={{ maxLength: 7 }}
+              helperText="Format: 3 letters followed by 3 numbers (e.g., ABC-123)"
               sx={{
                 "& .MuiInputLabel-root": {
                   fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
@@ -979,7 +1135,48 @@ function QuoteForm() {
               <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>Name: {formData.name}</Typography>
               <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>Email: {formData.email}</Typography>
               <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>Phone: {formData.phone}</Typography>
+              {formData.referralCode && (
+                <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>
+                  Referral Code: {formData.referralCode}
+                </Typography>
+              )}
             </Paper>
+
+            {selectedProject && (
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: { xs: 1.5, sm: 2 },
+                  mb: 2,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  borderLeft: "4px solid #4361ee",
+                  transition: "transform 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 12px rgba(67, 97, 238, 0.15)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  gutterBottom
+                  sx={{
+                    fontSize: { xs: "0.9rem", sm: "1rem" },
+                    fontWeight: "bold",
+                    color: "#3a0ca3",
+                  }}
+                >
+                  Project Reference
+                </Typography>
+                <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>
+                  Project: {selectedProject.projectName}
+                </Typography>
+                <Typography sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" } }}>
+                  Project ID: {selectedProject.projectId}
+                </Typography>
+              </Paper>
+            )}
 
             <Paper
               variant="outlined"
@@ -1231,15 +1428,28 @@ function QuoteForm() {
           <Typography variant="body1" paragraph sx={{ fontSize: { xs: "0.875rem", sm: "1rem" } }}>
             We'll review your requirements and get back to you shortly at {formData.email}.
           </Typography>
+          {selectedProject && (
+            <Typography
+              variant="body2"
+              paragraph
+              sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem" }, color: "text.secondary" }}
+            >
+              Reference Project: {selectedProject.projectName} ({selectedProject.projectId})
+            </Typography>
+          )}
           <Button
             variant="contained"
             onClick={() => {
               setActiveStep(0)
               setSubmitSuccess(false)
+              setSelectedProject(null)
               setFormData({
                 name: "",
                 email: "",
                 phone: "",
+                referralCode: "",
+                projectName: "",
+                projectId: "",
                 services: {
                   website: false,
                   app: false,
@@ -1436,6 +1646,13 @@ function QuoteForm() {
           </Box>
         </Box>
       </Paper>
+
+      {/* Project Selector Dialog */}
+      <ProjectSelector
+        open={projectSelectorOpen}
+        onClose={() => setProjectSelectorOpen(false)}
+        onSelectProject={handleProjectSelect}
+      />
     </Container>
   )
 }

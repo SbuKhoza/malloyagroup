@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react"
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore"
-import { app } from "../../firebase/config" // Adjust path as needed
+import { app } from "../../firebase/config"
 import LoginAdmin from "./LoginAdmin"
+import ProjectManager from "./ProjectManager"
+import QuoteForm from "../../components/QuoteForm"
 import {
   Box,
   Typography,
@@ -51,6 +53,8 @@ import {
   Reply as ReplyIcon,
   CheckCircle as CheckCircleIcon,
   Email as EmailIcon,
+  Folder as FolderIcon,
+  RequestQuote as RequestQuoteIcon,
 } from "@mui/icons-material"
 
 function AdminDashboard() {
@@ -68,6 +72,8 @@ function AdminDashboard() {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const [confirmAction, setConfirmAction] = useState(null)
   const [actionSuccess, setActionSuccess] = useState(null)
+  const [currentView, setCurrentView] = useState("dashboard") // 'dashboard', 'projects', 'quotes'
+  const [quoteFormProject, setQuoteFormProject] = useState(null)
 
   const auth = getAuth(app)
   const db = getFirestore(app)
@@ -84,10 +90,10 @@ function AdminDashboard() {
 
   // Fetch quotes when user is authenticated
   useEffect(() => {
-    if (user) {
+    if (user && currentView === "dashboard") {
       fetchQuotes()
     }
-  }, [user])
+  }, [user, currentView])
 
   // Clear success message after 3 seconds
   useEffect(() => {
@@ -178,8 +184,6 @@ function AdminDashboard() {
         })
         setActionSuccess("Quote archived successfully")
       } else if (confirmAction === "delete") {
-        // For delete, we'll record the deletion info before actually deleting
-        // This could be stored in a separate "deletedQuotes" collection if needed
         await updateDoc(quoteRef, {
           status: "Deleted",
           deletedAt: timestamp,
@@ -188,10 +192,7 @@ function AdminDashboard() {
         await deleteDoc(quoteRef)
         setActionSuccess("Quote deleted successfully")
       } else if (confirmAction === "respond") {
-        // Open email client
         window.location.href = `mailto:${currentQuote.email}?subject=Re: Your Quote Request`
-
-        // Update status in Firebase
         await updateDoc(quoteRef, {
           status: "In progress",
           respondedAt: timestamp,
@@ -207,7 +208,6 @@ function AdminDashboard() {
         setActionSuccess("Quote marked as responded")
       }
 
-      // Refresh quotes
       fetchQuotes()
     } catch (err) {
       console.error(`Error performing ${confirmAction} action:`, err)
@@ -216,6 +216,11 @@ function AdminDashboard() {
       setConfirmDialogOpen(false)
       setConfirmAction(null)
     }
+  }
+
+  const handleRequestQuote = (projectData) => {
+    setQuoteFormProject(projectData)
+    setCurrentView("quotes")
   }
 
   // Format date to day/month/year
@@ -263,6 +268,7 @@ function AdminDashboard() {
     if (activeTab === 2) return quotes.filter((quote) => quote.services?.app && quote.status !== "Archived")
     if (activeTab === 3) return quotes.filter((quote) => quote.services?.hosting && quote.status !== "Archived")
     if (activeTab === 4) return quotes.filter((quote) => quote.status === "Archived")
+    if (activeTab === 5) return quotes.filter((quote) => quote.referralCode && quote.status !== "Archived")
     return quotes
   }
 
@@ -271,6 +277,7 @@ function AdminDashboard() {
   const appQuotesCount = quotes.filter((quote) => quote.services?.app && quote.status !== "Archived").length
   const hostingQuotesCount = quotes.filter((quote) => quote.services?.hosting && quote.status !== "Archived").length
   const archivedQuotesCount = quotes.filter((quote) => quote.status === "Archived").length
+  const referralQuotesCount = quotes.filter((quote) => quote.referralCode && quote.status !== "Archived").length
 
   // If still loading, show a loading spinner
   if (loading) {
@@ -296,11 +303,23 @@ function AdminDashboard() {
       </Box>
       <Divider />
       <List>
-        <ListItem button selected={true}>
+        <ListItem button selected={currentView === "dashboard"} onClick={() => setCurrentView("dashboard")}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button selected={currentView === "projects"} onClick={() => setCurrentView("projects")}>
+          <ListItemIcon>
+            <FolderIcon />
+          </ListItemIcon>
+          <ListItemText primary="Projects" />
+        </ListItem>
+        <ListItem button selected={currentView === "quotes"} onClick={() => setCurrentView("quotes")}>
+          <ListItemIcon>
+            <RequestQuoteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Quote Form" />
         </ListItem>
         <ListItem button onClick={handleSignOut}>
           <ListItemIcon>
@@ -348,6 +367,11 @@ function AdminDashboard() {
               <Typography>
                 <strong>Phone:</strong> {selectedQuote.phone}
               </Typography>
+              {selectedQuote.referralCode && (
+                <Typography>
+                  <strong>Referral Code:</strong> {selectedQuote.referralCode}
+                </Typography>
+              )}
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -447,6 +471,23 @@ function AdminDashboard() {
                 </Paper>
               </Grid>
             )}
+
+            {selectedQuote.projectName && (
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, mt: 2 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Referenced Project
+                  </Typography>
+                  <Typography>
+                    <strong>Project Name:</strong> {selectedQuote.projectName}
+                  </Typography>
+                  <Typography>
+                    <strong>Project ID:</strong> {selectedQuote.projectId}
+                  </Typography>
+                </Paper>
+              </Grid>
+            )}
+
             <Grid item xs={12}>
               <Paper sx={{ p: 2, mt: 2 }}>
                 <Typography variant="h6" gutterBottom>
@@ -589,6 +630,447 @@ function AdminDashboard() {
     )
   }
 
+  // Render current view
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case "projects":
+        return <ProjectManager onRequestQuote={handleRequestQuote} />
+      case "quotes":
+        return <QuoteForm prefilledProject={quoteFormProject} />
+      default:
+        return (
+          <Box>
+            {/* Success Alert */}
+            {actionSuccess && (
+              <Alert severity="success" sx={{ mb: 2, position: "fixed", top: 70, right: 20, zIndex: 1000 }}>
+                {actionSuccess}
+              </Alert>
+            )}
+
+            {/* Statistics Cards */}
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={6} sm={6} md={3}>
+                <Card
+                  sx={{
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    borderRadius: "10px",
+                    transition: "transform 0.3s ease",
+                    "&:hover": { transform: "translateY(-5px)" },
+                  }}
+                >
+                  <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+                    <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                      Total Quotes
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{ color: "#3a0ca3", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
+                    >
+                      {quotes.filter((q) => q.status !== "Archived").length}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6} sm={6} md={3}>
+                <Card
+                  sx={{
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    borderRadius: "10px",
+                    transition: "transform 0.3s ease",
+                    "&:hover": { transform: "translateY(-5px)" },
+                  }}
+                >
+                  <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+                    <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                      Website Quotes
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{ color: "#4361ee", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
+                    >
+                      {websiteQuotesCount}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6} sm={6} md={3}>
+                <Card
+                  sx={{
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    borderRadius: "10px",
+                    transition: "transform 0.3s ease",
+                    "&:hover": { transform: "translateY(-5px)" },
+                  }}
+                >
+                  <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+                    <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                      App Quotes
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{ color: "#4cc9f0", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
+                    >
+                      {appQuotesCount}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6} sm={6} md={3}>
+                <Card
+                  sx={{
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    borderRadius: "10px",
+                    transition: "transform 0.3s ease",
+                    "&:hover": { transform: "translateY(-5px)" },
+                  }}
+                >
+                  <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+                    <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                      Archived Quotes
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{ color: "#6c757d", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
+                    >
+                      {archivedQuotesCount}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+
+            {/* Action Bar */}
+            <Paper
+              sx={{
+                mb: 2,
+                p: 2,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderRadius: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+              }}
+            >
+              <Button
+                startIcon={<RefreshIcon />}
+                onClick={fetchQuotes}
+                disabled={refreshing}
+                variant="contained"
+                sx={{
+                  background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%)",
+                  },
+                }}
+              >
+                {refreshing ? "Refreshing..." : "Refresh Quotes"}
+              </Button>
+            </Paper>
+
+            {/* Error Alert */}
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
+
+            {/* Tabs */}
+            <Paper
+              sx={{
+                width: "100%",
+                mb: 2,
+                borderRadius: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+              }}
+            >
+              <Tabs
+                value={activeTab}
+                onChange={handleTabChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="scrollable"
+                scrollButtons="auto"
+                sx={{
+                  "& .MuiTabs-indicator": {
+                    backgroundColor: "#3a0ca3",
+                  },
+                }}
+              >
+                <Tab label="All Quotes" />
+                <Tab label={`Website (${websiteQuotesCount})`} />
+                <Tab label={`App (${appQuotesCount})`} />
+                <Tab label={`Hosting (${hostingQuotesCount})`} />
+                <Tab label={`Archived (${archivedQuotesCount})`} />
+                <Tab label={`Referrals (${referralQuotesCount})`} />
+              </Tabs>
+            </Paper>
+
+            {/* Quotes Table */}
+            <Paper
+              sx={{
+                width: "100%",
+                overflow: "hidden",
+                borderRadius: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+              }}
+            >
+              <TableContainer sx={{ maxHeight: { xs: 350, sm: 440 } }}>
+                <Table stickyHeader aria-label="quotes table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        }}
+                      >
+                        Date & Time
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        }}
+                      >
+                        Client
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                          display: { xs: "none", sm: "table-cell" },
+                        }}
+                      >
+                        Email
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                          display: { xs: "none", md: "table-cell" },
+                        }}
+                      >
+                        Project
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        }}
+                      >
+                        Services
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        }}
+                      >
+                        Status
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{
+                          fontWeight: "bold",
+                          backgroundColor: "#f0f2ff",
+                          fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        }}
+                      >
+                        Actions
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {getFilteredQuotes().length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={7} align="center">
+                          No quotes found
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      getFilteredQuotes().map((quote) => (
+                        <TableRow
+                          key={quote.id}
+                          hover
+                          onClick={() => handleViewQuote(quote)}
+                          sx={{
+                            cursor: "pointer",
+                            "&:hover": { backgroundColor: "#f8f9ff" },
+                          }}
+                        >
+                          <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                            {quote.timestamp ? (
+                              <Box>
+                                <Typography variant="body2" sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}>
+                                  {formatDate(quote.timestamp)}
+                                </Typography>
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  sx={{ fontSize: { xs: "0.65rem", sm: "0.75rem" } }}
+                                >
+                                  {formatTime(quote.timestamp)}
+                                </Typography>
+                              </Box>
+                            ) : (
+                              "No date"
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>{quote.name}</TableCell>
+                          <TableCell
+                            sx={{
+                              fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                              display: { xs: "none", sm: "table-cell" },
+                            }}
+                          >
+                            {quote.email}
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                              display: { xs: "none", md: "table-cell" },
+                            }}
+                          >
+                            {quote.projectName ? (
+                              <Chip
+                                size="small"
+                                label={`${quote.projectName} (${quote.projectId})`}
+                                color="secondary"
+                                variant="outlined"
+                                sx={{
+                                  height: { xs: 20, sm: 24 },
+                                  fontSize: { xs: "0.65rem", sm: "0.75rem" },
+                                }}
+                              />
+                            ) : (
+                              <Typography variant="caption" color="text.secondary">
+                                None
+                              </Typography>
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                            {quote.services?.website && (
+                              <Chip
+                                size="small"
+                                label="Website"
+                                color="primary"
+                                sx={{
+                                  mr: 0.5,
+                                  mb: 0.5,
+                                  height: { xs: 20, sm: 24 },
+                                  fontSize: { xs: "0.65rem", sm: "0.75rem" },
+                                }}
+                              />
+                            )}
+                            {quote.services?.app && (
+                              <Chip
+                                size="small"
+                                label="App"
+                                color="secondary"
+                                sx={{
+                                  mr: 0.5,
+                                  mb: 0.5,
+                                  height: { xs: 20, sm: 24 },
+                                  fontSize: { xs: "0.65rem", sm: "0.75rem" },
+                                }}
+                              />
+                            )}
+                            {quote.services?.hosting && (
+                              <Chip
+                                size="small"
+                                label="Hosting"
+                                color="info"
+                                sx={{
+                                  mr: 0.5,
+                                  mb: 0.5,
+                                  height: { xs: 20, sm: 24 },
+                                  fontSize: { xs: "0.65rem", sm: "0.75rem" },
+                                }}
+                              />
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                            <Chip
+                              size="small"
+                              label={quote.status || "Pending"}
+                              color={getStatusColor(quote.status || "Pending")}
+                              sx={{ height: { xs: 20, sm: 24 }, fontSize: { xs: "0.65rem", sm: "0.75rem" } }}
+                            />
+                          </TableCell>
+                          <TableCell align="right" sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
+                            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                              <Button
+                                size="small"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleViewQuote(quote)
+                                }}
+                                sx={{ mr: 1, fontSize: { xs: "0.7rem", sm: "0.8rem" }, py: { xs: 0.5 }, px: { xs: 1 } }}
+                              >
+                                View
+                              </Button>
+                              <IconButton
+                                size="small"
+                                onClick={(e) => handleActionMenuOpen(e, quote)}
+                                aria-label="more actions"
+                              >
+                                <MoreVertIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+
+            {/* Action Menu */}
+            <Menu anchorEl={actionMenuAnchor} open={Boolean(actionMenuAnchor)} onClose={handleActionMenuClose}>
+              <MenuItem onClick={() => openConfirmDialog("respond")}>
+                <ListItemIcon>
+                  <ReplyIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Respond</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => openConfirmDialog("responded")}>
+                <ListItemIcon>
+                  <CheckCircleIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Mark as Responded</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => openConfirmDialog("archive")}>
+                <ListItemIcon>
+                  <ArchiveIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Archive</ListItemText>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={() => openConfirmDialog("delete")}>
+                <ListItemIcon>
+                  <DeleteIcon fontSize="small" color="error" />
+                </ListItemIcon>
+                <ListItemText sx={{ color: "error.main" }}>Delete</ListItemText>
+              </MenuItem>
+            </Menu>
+
+            {/* Quote Details Dialog */}
+            {QuoteDetailsDialog()}
+
+            {/* Confirmation Dialog */}
+            {ConfirmationDialog()}
+          </Box>
+        )
+    }
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       {/* App Bar */}
@@ -638,380 +1120,12 @@ function AdminDashboard() {
           p: 3,
           width: "100%",
           mt: 8,
-          mb: 5, // Add bottom margin
-          pb: 5, // Add bottom padding
+          mb: 5,
+          pb: 5,
           backgroundColor: "#f8f9ff",
         }}
       >
-        {/* Success Alert */}
-        {actionSuccess && (
-          <Alert severity="success" sx={{ mb: 2, position: "fixed", top: 70, right: 20, zIndex: 1000 }}>
-            {actionSuccess}
-          </Alert>
-        )}
-
-        {/* Statistics Cards */}
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={6} sm={6} md={3}>
-            <Card
-              sx={{
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                borderRadius: "10px",
-                transition: "transform 0.3s ease",
-                "&:hover": { transform: "translateY(-5px)" },
-              }}
-            >
-              <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
-                <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                  Total Quotes
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{ color: "#3a0ca3", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
-                >
-                  {quotes.filter((q) => q.status !== "Archived").length}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6} sm={6} md={3}>
-            <Card
-              sx={{
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                borderRadius: "10px",
-                transition: "transform 0.3s ease",
-                "&:hover": { transform: "translateY(-5px)" },
-              }}
-            >
-              <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
-                <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                  Website Quotes
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{ color: "#4361ee", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
-                >
-                  {websiteQuotesCount}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6} sm={6} md={3}>
-            <Card
-              sx={{
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                borderRadius: "10px",
-                transition: "transform 0.3s ease",
-                "&:hover": { transform: "translateY(-5px)" },
-              }}
-            >
-              <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
-                <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                  App Quotes
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{ color: "#4cc9f0", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
-                >
-                  {appQuotesCount}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6} sm={6} md={3}>
-            <Card
-              sx={{
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                borderRadius: "10px",
-                transition: "transform 0.3s ease",
-                "&:hover": { transform: "translateY(-5px)" },
-              }}
-            >
-              <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
-                <Typography color="textSecondary" gutterBottom sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                  Archived Quotes
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{ color: "#6c757d", fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" } }}
-                >
-                  {archivedQuotesCount}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Action Bar */}
-        <Paper
-          sx={{
-            mb: 2,
-            p: 2,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: "10px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-          }}
-        >
-          <Button
-            startIcon={<RefreshIcon />}
-            onClick={fetchQuotes}
-            disabled={refreshing}
-            variant="contained"
-            sx={{
-              background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
-              "&:hover": {
-                background: "linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%)",
-              },
-            }}
-          >
-            {refreshing ? "Refreshing..." : "Refresh Quotes"}
-          </Button>
-        </Paper>
-
-        {/* Error Alert */}
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-
-        {/* Tabs */}
-        <Paper
-          sx={{
-            width: "100%",
-            mb: 2,
-            borderRadius: "10px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-          }}
-        >
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{
-              "& .MuiTabs-indicator": {
-                backgroundColor: "#3a0ca3",
-              },
-            }}
-          >
-            <Tab label="All Quotes" />
-            <Tab label={`Website (${websiteQuotesCount})`} />
-            <Tab label={`App (${appQuotesCount})`} />
-            <Tab label={`Hosting (${hostingQuotesCount})`} />
-            <Tab label={`Archived (${archivedQuotesCount})`} />
-          </Tabs>
-        </Paper>
-
-        {/* Quotes Table */}
-        <Paper
-          sx={{
-            width: "100%",
-            overflow: "hidden",
-            borderRadius: "10px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-          }}
-        >
-          <TableContainer sx={{ maxHeight: { xs: 350, sm: 440 } }}>
-            <Table stickyHeader aria-label="quotes table" size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    sx={{ fontWeight: "bold", backgroundColor: "#f0f2ff", fontSize: { xs: "0.75rem", sm: "0.875rem" } }}
-                  >
-                    Date & Time
-                  </TableCell>
-                  <TableCell
-                    sx={{ fontWeight: "bold", backgroundColor: "#f0f2ff", fontSize: { xs: "0.75rem", sm: "0.875rem" } }}
-                  >
-                    Client
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      backgroundColor: "#f0f2ff",
-                      fontSize: { xs: "0.75rem", sm: "0.875rem" },
-                      display: { xs: "none", sm: "table-cell" },
-                    }}
-                  >
-                    Email
-                  </TableCell>
-                  <TableCell
-                    sx={{ fontWeight: "bold", backgroundColor: "#f0f2ff", fontSize: { xs: "0.75rem", sm: "0.875rem" } }}
-                  >
-                    Services
-                  </TableCell>
-                  <TableCell
-                    sx={{ fontWeight: "bold", backgroundColor: "#f0f2ff", fontSize: { xs: "0.75rem", sm: "0.875rem" } }}
-                  >
-                    Status
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ fontWeight: "bold", backgroundColor: "#f0f2ff", fontSize: { xs: "0.75rem", sm: "0.875rem" } }}
-                  >
-                    Actions
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {getFilteredQuotes().length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} align="center">
-                      No quotes found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  getFilteredQuotes().map((quote) => (
-                    <TableRow
-                      key={quote.id}
-                      hover
-                      onClick={() => handleViewQuote(quote)}
-                      sx={{
-                        cursor: "pointer",
-                        "&:hover": { backgroundColor: "#f8f9ff" },
-                      }}
-                    >
-                      <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                        {quote.timestamp ? (
-                          <Box>
-                            <Typography variant="body2" sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}>
-                              {formatDate(quote.timestamp)}
-                            </Typography>
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                              sx={{ fontSize: { xs: "0.65rem", sm: "0.75rem" } }}
-                            >
-                              {formatTime(quote.timestamp)}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          "No date"
-                        )}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>{quote.name}</TableCell>
-                      <TableCell
-                        sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" }, display: { xs: "none", sm: "table-cell" } }}
-                      >
-                        {quote.email}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                        {quote.services?.website && (
-                          <Chip
-                            size="small"
-                            label="Website"
-                            color="primary"
-                            sx={{
-                              mr: 0.5,
-                              mb: 0.5,
-                              height: { xs: 20, sm: 24 },
-                              fontSize: { xs: "0.65rem", sm: "0.75rem" },
-                            }}
-                          />
-                        )}
-                        {quote.services?.app && (
-                          <Chip
-                            size="small"
-                            label="App"
-                            color="secondary"
-                            sx={{
-                              mr: 0.5,
-                              mb: 0.5,
-                              height: { xs: 20, sm: 24 },
-                              fontSize: { xs: "0.65rem", sm: "0.75rem" },
-                            }}
-                          />
-                        )}
-                        {quote.services?.hosting && (
-                          <Chip
-                            size="small"
-                            label="Hosting"
-                            color="info"
-                            sx={{
-                              mr: 0.5,
-                              mb: 0.5,
-                              height: { xs: 20, sm: 24 },
-                              fontSize: { xs: "0.65rem", sm: "0.75rem" },
-                            }}
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                        <Chip
-                          size="small"
-                          label={quote.status || "Pending"}
-                          color={getStatusColor(quote.status || "Pending")}
-                          sx={{ height: { xs: 20, sm: 24 }, fontSize: { xs: "0.65rem", sm: "0.75rem" } }}
-                        />
-                      </TableCell>
-                      <TableCell align="right" sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                          <Button
-                            size="small"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleViewQuote(quote)
-                            }}
-                            sx={{ mr: 1, fontSize: { xs: "0.7rem", sm: "0.8rem" }, py: { xs: 0.5 }, px: { xs: 1 } }}
-                          >
-                            View
-                          </Button>
-                          <IconButton
-                            size="small"
-                            onClick={(e) => handleActionMenuOpen(e, quote)}
-                            aria-label="more actions"
-                          >
-                            <MoreVertIcon fontSize="small" />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-
-        {/* Action Menu */}
-        <Menu anchorEl={actionMenuAnchor} open={Boolean(actionMenuAnchor)} onClose={handleActionMenuClose}>
-          <MenuItem onClick={() => openConfirmDialog("respond")}>
-            <ListItemIcon>
-              <ReplyIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Respond</ListItemText>
-          </MenuItem>
-          <MenuItem onClick={() => openConfirmDialog("responded")}>
-            <ListItemIcon>
-              <CheckCircleIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Mark as Responded</ListItemText>
-          </MenuItem>
-          <MenuItem onClick={() => openConfirmDialog("archive")}>
-            <ListItemIcon>
-              <ArchiveIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Archive</ListItemText>
-          </MenuItem>
-          <Divider />
-          <MenuItem onClick={() => openConfirmDialog("delete")}>
-            <ListItemIcon>
-              <DeleteIcon fontSize="small" color="error" />
-            </ListItemIcon>
-            <ListItemText sx={{ color: "error.main" }}>Delete</ListItemText>
-          </MenuItem>
-        </Menu>
-
-        {/* Quote Details Dialog */}
-        {QuoteDetailsDialog()}
-
-        {/* Confirmation Dialog */}
-        {ConfirmationDialog()}
+        {renderCurrentView()}
       </Box>
     </Box>
   )
