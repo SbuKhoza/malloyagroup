@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 import Quote from './pages/Quote';
 import Admin from './CMS/MalloyaAdmin';
 import MalloyaAdmin from './CMS/MalloyaAdmin';
+import Projects from './pages/Projects';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/hosting" element={<Hosting />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
