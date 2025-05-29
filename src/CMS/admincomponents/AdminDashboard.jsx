@@ -6,7 +6,7 @@ import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "fi
 import { app } from "../../firebase/config"
 import LoginAdmin from "./LoginAdmin"
 import ProjectManager from "./ProjectManager"
-import QuoteForm from "../../components/QuoteForm"
+import Referral from "./Referral"
 import {
   Box,
   Typography,
@@ -315,12 +315,14 @@ function AdminDashboard() {
           </ListItemIcon>
           <ListItemText primary="Projects" />
         </ListItem>
-        <ListItem button selected={currentView === "quotes"} onClick={() => setCurrentView("quotes")}>
+
+        <ListItem button selected={currentView === "referral"} onClick={() => setCurrentView("quotes")}>
           <ListItemIcon>
             <RequestQuoteIcon />
           </ListItemIcon>
-          <ListItemText primary="Quote Form" />
+          <ListItemText primary="Referral" />
         </ListItem>
+
         <ListItem button onClick={handleSignOut}>
           <ListItemIcon>
             <LogoutIcon />
@@ -636,7 +638,7 @@ function AdminDashboard() {
       case "projects":
         return <ProjectManager onRequestQuote={handleRequestQuote} />
       case "quotes":
-        return <QuoteForm prefilledProject={quoteFormProject} />
+        return <Referral prefilledProject={quoteFormProject} />
       default:
         return (
           <Box>
