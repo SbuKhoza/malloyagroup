@@ -122,7 +122,7 @@ const HostingPlans = () => {
   const hostingPlans = [
     {
       title: 'Starter Plan',
-      price: 49,
+      price: 55,
       features: [
         'cPanel Access',
         '1 GB NVMe SSD Storage',
@@ -139,7 +139,7 @@ const HostingPlans = () => {
     },
     {
       title: 'Standard Plan',
-      price: 99,
+      price: 100,
       features: [
         'cPanel Access',
         '5 GB NVMe SSD Storage',
@@ -157,7 +157,7 @@ const HostingPlans = () => {
     },
     {
       title: 'Business Plan',
-      price: 149,
+      price: 150,
       features: [
         'cPanel Access',
         '10 GB NVMe SSD Storage',
@@ -176,7 +176,7 @@ const HostingPlans = () => {
     },
     {
       title: 'Pro Plan',
-      price: 199,
+      price: 200,
       features: [
         'cPanel Access',
         '20 GB NVMe SSD Storage',

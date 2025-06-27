@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa"
 import { MdSpeed, MdDashboard, MdSchedule, MdAnalytics } from "react-icons/md"
 import heroImage from "../assets/hero.png"
+import SEOHelmet from "../components/SEOHelmet"
 
 // Import components
 import ServiceCard from "../components/ServiceCard"
@@ -24,13 +25,13 @@ const Hero = () => {
 
   return (
     <Box
+      component="section"
       sx={{
         background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)", // Modern bright purple to blue gradient
         color: "white",
         py: { xs: 5, md: 6 }, // Reduced height
         position: "relative",
         overflow: "hidden",
-       
       }}
     >
       <Container maxWidth="lg">
@@ -49,18 +50,21 @@ const Hero = () => {
                 textShadow: "0 2px 10px rgba(0,0,0,0.1)",
               }}
             >
-              Bringing Your Digital Ideas To Life
+              Affordable Custom Websites That Drive Results
             </Typography>
             <Typography
-              variant="h5"
+              variant="h2"
+              component="h2"
               sx={{
                 fontWeight: 400,
+                fontSize: { xs: "1.2rem", md: "1.5rem" },
                 mb: 4,
                 opacity: 0.9,
                 maxWidth: "90%",
               }}
             >
-              Custom mobile & web solutions that power your business growth
+              Professional web development, mobile apps & hosting solutions starting from just 4 pages. Get your free
+              quote online today!
             </Typography>
             <Box sx={{ display: "flex", gap: { xs: 1, sm: 2 }, flexWrap: "wrap" }}>
               <Button
@@ -85,8 +89,9 @@ const Hero = () => {
                   },
                 }}
                 startIcon={<FaRocket />}
+                aria-label="Get a free quote for affordable website development"
               >
-                Get a Quote
+                Get Free Quote
               </Button>
               <Button
                 variant="outlined"
@@ -106,6 +111,7 @@ const Hero = () => {
                     backgroundColor: "rgba(255,255,255,0.1)",
                   },
                 }}
+                aria-label="View our affordable web development services"
               >
                 Our Services
               </Button>
@@ -115,7 +121,7 @@ const Hero = () => {
             <Box
               component="img"
               src={heroImage}
-              alt="Digital solutions"
+              alt="Affordable custom website development and digital solutions by Malloya Group"
               sx={{
                 width: "100%",
                 transform: "perspective(1000px) rotateY(-5deg)",
@@ -166,33 +172,34 @@ const Hero = () => {
 const Services = () => {
   const services = [
     {
-      title: "Website Development",
-      description: "Custom responsive websites built to match your brand and meet your business goals.",
+      title: "Affordable Website Development",
+      description:
+        "Custom responsive websites built to match your brand and meet your business goals. Starting from just 4 pages with fast delivery.",
       icon: FaLaptopCode,
       link: "/services",
     },
     {
       title: "Mobile Apps",
-      description: "Native and cross-platform mobile applications for iOS and Android devices.",
+      description: "Native and cross-platform mobile applications for iOS and Android devices at competitive prices.",
       icon: FaMobileAlt,
       link: "/services",
     },
     {
-      title: "Web Hosting",
-      description: "Fast, secure and reliable hosting solutions with 99.9% uptime guarantee.",
+      title: "Budget-Friendly Web Hosting",
+      description: "Fast, secure and reliable hosting solutions with 99.9% uptime guarantee at affordable rates.",
       icon: FaServer,
       link: "/services",
     },
     {
       title: "UI/UX Consultation",
-      description: "Expert consultation to enhance user experience and interface design.",
+      description: "Expert consultation to enhance user experience and interface design without breaking the budget.",
       icon: FaPaintBrush,
       link: "/services",
     },
   ]
 
   return (
-    <Box sx={{ py: 8, backgroundColor: "#f8f9ff" }}>
+    <Box component="section" sx={{ py: 8, backgroundColor: "#f8f9ff" }}>
       {" "}
       {/* Light background */}
       <Container maxWidth="lg">
@@ -207,7 +214,7 @@ const Services = () => {
               mb: 1,
             }}
           >
-            WHAT WE OFFER
+            AFFORDABLE SOLUTIONS
           </Typography>
           <Typography
             variant="h2"
@@ -232,18 +239,20 @@ const Services = () => {
               },
             }}
           >
-            Our Services
+            Our Budget-Friendly Services
           </Typography>
           <Typography
-            variant="h5"
+            variant="h3"
+            component="h3"
             sx={{
               maxWidth: 700,
               mx: "auto",
               color: "#4a4a6a",
               mt: 3,
+              fontSize: { xs: "1.2rem", md: "1.5rem" },
             }}
           >
-            End-to-end digital solutions for your business
+            Professional digital solutions that won't break your budget
           </Typography>
         </Box>
 
@@ -267,6 +276,7 @@ const Services = () => {
 const WebsitePackage = () => {
   return (
     <Box
+      component="section"
       sx={{
         py: 8,
         background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)", // Deep blue gradient
@@ -286,7 +296,7 @@ const WebsitePackage = () => {
                 mb: 1,
               }}
             >
-              STANDARD PACKAGE
+              MOST AFFORDABLE PACKAGE
             </Typography>
             <Typography
               variant="h3"
@@ -299,27 +309,32 @@ const WebsitePackage = () => {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Standard Website Package
+              Budget-Friendly Website Package
             </Typography>
-            <Typography variant="h6" gutterBottom sx={{ opacity: 0.9, mb: 3 }}>
-              For a 4-page website with essential features
+            <Typography
+              variant="h4"
+              component="h4"
+              gutterBottom
+              sx={{ opacity: 0.9, mb: 3, fontSize: { xs: "1.1rem", md: "1.25rem" } }}
+            >
+              Professional 4-page website with all essential features at an unbeatable price
             </Typography>
             <Box sx={{ my: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>Mobile-friendly design</Typography>
+                    <Typography>Mobile-responsive design</Typography>
                   </Box>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>Basic UI customization</Typography>
+                    <Typography>Professional UI customization</Typography>
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>Basic SEO setup</Typography>
+                    <Typography>SEO-optimized structure</Typography>
                   </Box>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
@@ -339,9 +354,11 @@ const WebsitePackage = () => {
                 borderRadius: "0 4px 4px 0",
               }}
             >
-              Timeline: 3-5 business days
+              <strong>Fast Delivery:</strong> 3-5 business days
               <br />
-              Additional pages available upon request
+              <strong>Affordable Pricing:</strong> Additional pages available upon request
+              <br />
+              <strong>Free Quote:</strong> Get your custom quote online today
             </Typography>
             <Button
               variant="contained"
@@ -363,8 +380,9 @@ const WebsitePackage = () => {
                   transform: "translateY(-2px)",
                 },
               }}
+              aria-label="Get free quote for affordable website package"
             >
-              Get a Quote
+              Get Free Quote Now
             </Button>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -402,10 +420,10 @@ const WebsitePackage = () => {
                   }}
                 />
                 <Typography variant="h4" component="h3" gutterBottom fontWeight="bold">
-                  E-Commerce Add-On
+                  Affordable E-Commerce Add-On
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  Transform your website into a fully-functional online store:
+                  Transform your budget website into a cost-effective online store:
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
@@ -419,13 +437,13 @@ const WebsitePackage = () => {
                       <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
                         •
                       </Box>
-                      <Typography>Cart & Checkout</Typography>
+                      <Typography>Secure Cart & Checkout</Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                       <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
                         •
                       </Box>
-                      <Typography>Category Pages</Typography>
+                      <Typography>Category Management</Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -433,7 +451,7 @@ const WebsitePackage = () => {
                       <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
                         •
                       </Box>
-                      <Typography>User Accounts</Typography>
+                      <Typography>User Account System</Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                       <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
@@ -461,7 +479,9 @@ const WebsitePackage = () => {
                   }}
                 >
                   <MdSpeed style={{ marginRight: "8px", color: "#4cc9f0", fontSize: 22 }} />
-                  <Typography variant="body2">Additional 5 days for e-commerce integration</Typography>
+                  <Typography variant="body2">
+                    Budget-friendly pricing with just 5 additional days for e-commerce integration
+                  </Typography>
                 </Box>
               </Box>
             </Box>
@@ -475,6 +495,7 @@ const WebsitePackage = () => {
 const CMSAddOn = () => {
   return (
     <Box
+      component="section"
       sx={{
         py: 8,
         backgroundColor: "#f8f9ff", // Light background
@@ -514,7 +535,7 @@ const CMSAddOn = () => {
                   color: "#1a1a2e", // Deep blue text
                 }}
               >
-                CMS Add-On
+                Affordable CMS Add-On
               </Typography>
               <Typography
                 variant="body1"
@@ -523,7 +544,8 @@ const CMSAddOn = () => {
                   color: "#4a4a6a",
                 }}
               >
-                For businesses needing an easy way to update their website content without coding.
+                Perfect for budget-conscious businesses needing an easy way to update their website content without
+                coding knowledge.
               </Typography>
 
               <Box sx={{ my: 3 }}>
@@ -542,7 +564,7 @@ const CMSAddOn = () => {
                         }}
                       />
                       <Typography>
-                        <strong>Admin Dashboard</strong> – Easily update text, images, and pages
+                        <strong>User-Friendly Admin Dashboard</strong> – Easily update text, images, and pages
                       </Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
@@ -558,7 +580,7 @@ const CMSAddOn = () => {
                         }}
                       />
                       <Typography>
-                        <strong>SEO-friendly structure</strong> – Optimized for search engines
+                        <strong>SEO-optimized structure</strong> – Built for search engine visibility
                       </Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
@@ -590,7 +612,7 @@ const CMSAddOn = () => {
                         }}
                       />
                       <Typography>
-                        <strong>Signup & Login Page</strong> – Allows users to create and manage accounts
+                        <strong>Signup & Login Pages</strong> – Allows users to create and manage accounts
                       </Typography>
                     </Box>
                   </Grid>
@@ -609,8 +631,8 @@ const CMSAddOn = () => {
               >
                 <MdSchedule style={{ marginRight: "12px", color: "#3a0ca3", fontSize: 24 }} />
                 <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                  <strong>Additional CMS-powered pages available</strong> <br />{" "}
-                  <strong>Up to 5 days for integration</strong>
+                  <strong>Cost-effective CMS solution</strong> <br />{" "}
+                  <strong>Only 5 additional days for integration</strong>
                 </Typography>
               </Box>
             </Box>
@@ -628,7 +650,7 @@ const CMSAddOn = () => {
                   mb: 1,
                 }}
               >
-                CONTENT MANAGEMENT
+                BUDGET-FRIENDLY CONTENT MANAGEMENT
               </Typography>
               <Typography
                 variant="h4"
@@ -640,17 +662,17 @@ const CMSAddOn = () => {
                   mb: 3,
                 }}
               >
-                Why Choose Our CMS Solution?
+                Why Choose Our Affordable CMS Solution?
               </Typography>
 
               <Box sx={{ mb: 3 }}>
                 <Typography variant="body1" paragraph sx={{ color: "#4a4a6a" }}>
-                  Our Content Management System empowers you to take control of your website without any technical
-                  knowledge.
+                  Our budget-friendly Content Management System empowers you to take control of your website without any
+                  technical knowledge or expensive ongoing costs.
                 </Typography>
 
                 <Typography variant="body1" paragraph sx={{ color: "#4a4a6a" }}>
-                  With an intuitive admin dashboard, you can:
+                  With our intuitive admin dashboard, you can manage your affordable website easily:
                 </Typography>
               </Box>
 
@@ -674,10 +696,10 @@ const CMSAddOn = () => {
                       <FaUsersCog style={{ fontSize: 24 }} />
                     </Box>
                     <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Update Content Easily
+                      Easy Content Updates
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Change text, images, and add new pages without coding knowledge
+                      Change text, images, and add new pages without coding knowledge or additional costs
                     </Typography>
                   </Box>
                 </Grid>
@@ -701,10 +723,10 @@ const CMSAddOn = () => {
                       <FaUsersCog style={{ fontSize: 24 }} />
                     </Box>
                     <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Manage Users
+                      User Management
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Add team members with specific permissions and access levels
+                      Add team members with specific permissions and access levels at no extra cost
                     </Typography>
                   </Box>
                 </Grid>
@@ -728,10 +750,10 @@ const CMSAddOn = () => {
                       <MdAnalytics style={{ fontSize: 24 }} />
                     </Box>
                     <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Track Performance
+                      Performance Tracking
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Built-in analytics to monitor visitor behavior and engagement
+                      Built-in analytics to monitor visitor behavior and engagement on your affordable website
                     </Typography>
                   </Box>
                 </Grid>
@@ -755,10 +777,10 @@ const CMSAddOn = () => {
                       <MdSchedule style={{ fontSize: 24 }} />
                     </Box>
                     <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Schedule Content
+                      Content Scheduling
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Plan and schedule content updates for future publication
+                      Plan and schedule content updates for future publication without ongoing fees
                     </Typography>
                   </Box>
                 </Grid>
@@ -774,6 +796,7 @@ const CMSAddOn = () => {
 const CallToAction = () => {
   return (
     <Box
+      component="section"
       sx={{
         py: 10,
         textAlign: "center",
@@ -820,18 +843,20 @@ const CallToAction = () => {
             textShadow: "0 2px 10px rgba(0,0,0,0.2)",
           }}
         >
-          Ready to Start Your Digital Journey?
+          Ready to Get Your Affordable Website?
         </Typography>
         <Typography
-          variant="h6"
+          variant="h4"
+          component="h4"
           sx={{
             maxWidth: 700,
             mx: "auto",
             mb: 5,
             color: "rgba(255,255,255,0.9)", // Semi-transparent white
+            fontSize: { xs: "1.1rem", md: "1.25rem" },
           }}
         >
-          Let's discuss your project and find the perfect solution for your business needs.
+          Get your free quote today and start your digital journey with budget-friendly professional web development.
         </Typography>
         <Button
           variant="contained"
@@ -854,8 +879,9 @@ const CallToAction = () => {
               boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
             },
           }}
+          aria-label="Contact us for affordable website development"
         >
-          Contact Us
+          Get Free Quote Now
         </Button>
       </Container>
     </Box>
@@ -865,6 +891,7 @@ const CallToAction = () => {
 const Home = () => {
   return (
     <>
+      <SEOHelmet />
       <Hero />
       <Services />
       <HostingPlans />

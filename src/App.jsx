@@ -17,9 +17,11 @@ import Quote from './pages/Quote';
 import Admin from './CMS/MalloyaAdmin';
 import MalloyaAdmin from './CMS/MalloyaAdmin';
 import Projects from './pages/Projects';
+import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
   return (
+    <HelmetProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
@@ -37,6 +39,7 @@ function App() {
         <Footer />
       </Router>
     </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
