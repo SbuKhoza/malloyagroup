@@ -1,5 +1,5 @@
 "use client"
-import { Box, Container, Typography, Button, Grid, useMediaQuery, useTheme } from "@mui/material"
+import { Box, Container, Typography, Button, Grid, useMediaQuery, useTheme, Stack, Chip } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
 import {
   FaLaptopCode,
@@ -10,10 +10,12 @@ import {
   FaCheck,
   FaShoppingCart,
   FaUsersCog,
+  FaArrowRight
 } from "react-icons/fa"
-import { MdSpeed, MdDashboard, MdSchedule, MdAnalytics } from "react-icons/md"
+import { MdSpeed, MdDashboard, MdSchedule, MdAnalytics, MdSecurity, MdSupportAgent } from "react-icons/md"
 import heroImage from "../assets/hero.png"
 import SEOHelmet from "../components/SEOHelmet"
+import { motion } from "framer-motion"
 
 // Import components
 import ServiceCard from "../components/ServiceCard"
@@ -27,144 +29,184 @@ const Hero = () => {
     <Box
       component="section"
       sx={{
-        background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)", // Modern bright purple to blue gradient
-        color: "white",
-        py: { xs: 5, md: 6 }, // Reduced height
+        background: "#ffffff",
+        color: "#1e293b",
+        pt: { xs: 10, md: 5 },
+        pb: { xs: 10, md: 5 },
         position: "relative",
         overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4} alignItems="center">
+      {/* Animated Shapes */}
+      <Box 
+        component={motion.div}
+        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        sx={{
+          position: "absolute",
+          top: "10%",
+          right: "5%",
+          width: "40vw",
+          height: "40vw",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 70%)",
+          filter: "blur(80px)",
+          zIndex: 0
+        }}
+      />
+
+      <Box 
+        component={motion.div}
+        animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        sx={{
+          position: "absolute",
+          bottom: "10%",
+          left: "10%",
+          width: "30vw",
+          height: "30vw",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(236, 72, 153, 0.05) 0%, rgba(236, 72, 153, 0) 70%)",
+          filter: "blur(80px)",
+          zIndex: 0
+        }}
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
-            <Typography
-              variant="h1"
-              component="h1"
-              sx={{
-                fontWeight: 800,
-                fontSize: { xs: "2.2rem", md: "3.2rem" },
-                mb: 2,
-                background: "linear-gradient(to right, #ffffff, #e0e0ff)", // Text gradient
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                textShadow: "0 2px 10px rgba(0,0,0,0.1)",
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              Affordable Custom Websites That Drive Results
-            </Typography>
-            <Typography
-              variant="h2"
-              component="h2"
-              sx={{
-                fontWeight: 400,
-                fontSize: { xs: "1.2rem", md: "1.5rem" },
-                mb: 4,
-                opacity: 0.9,
-                maxWidth: "90%",
-              }}
-            >
-              Professional web development, mobile apps & hosting solutions starting from just 4 pages. Get your free
-              quote online today!
-            </Typography>
-            <Box sx={{ display: "flex", gap: { xs: 1, sm: 2 }, flexWrap: "wrap" }}>
-              <Button
-                variant="contained"
-                size="large"
-                component={RouterLink}
-                to="/quote"
-                sx={{
-                  px: { xs: 2, sm: 4 },
-                  py: { xs: 1, sm: 1.5 },
-                  backgroundColor: "#ffffff",
-                  color: "#3a0ca3",
-                  fontWeight: "bold",
-                  fontSize: { xs: "0.8rem", sm: "inherit" },
-                  boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
-                  borderRadius: "8px",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    backgroundColor: "#f0f0ff",
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-                  },
-                }}
-                startIcon={<FaRocket />}
-                aria-label="Get a free quote for affordable website development"
-              >
-                Get Free Quote
-              </Button>
-              <Button
+              <Chip 
+                label="Available for new projects" 
+                color="success" 
                 variant="outlined"
-                color="inherit"
-                size="large"
-                component={RouterLink}
-                to="/services"
+                size="small"
+                sx={{ 
+                  mb: 2.5, 
+                  color: '#0ea5e9', 
+                  borderColor: 'rgba(14, 165, 233, 0.3)',
+                  fontWeight: 600,
+                  bgcolor: 'rgba(14, 165, 233, 0.1)',
+                  backdropFilter: 'blur(10px)'
+                }} 
+              />
+              <Typography
+                variant="h1"
                 sx={{
-                  px: { xs: 2, sm: 4 },
-                  py: { xs: 1, sm: 1.5 },
-                  borderColor: "rgba(255,255,255,0.7)",
-                  fontSize: { xs: "0.8rem", sm: "inherit" },
-                  borderRadius: "8px",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    borderColor: "#ffffff",
-                    backgroundColor: "rgba(255,255,255,0.1)",
-                  },
+                  fontWeight: 800,
+                  fontSize: { xs: "2.2rem", md: "3.2rem" },
+                  lineHeight: 1.15,
+                  mb: 2,
+                  letterSpacing: "-0.5px",
+                  textShadow: "0 2px 20px rgba(255,255,255,0.5)"
                 }}
-                aria-label="View our affordable web development services"
               >
-                Our Services
-              </Button>
-            </Box>
+                We Build <span style={{ 
+                  background: "linear-gradient(90deg, #f97316, #ec4899)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}>Digital</span> <br/>
+                <span style={{ 
+                  background: "none",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "#475569"
+                 }}>Experiences.</span>
+              </Typography>
+              
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 400,
+                  color: "#475569",
+                  mb: 4,
+                  maxWidth: "90%",
+                  lineHeight: 1.5,
+                  fontSize: { xs: "1rem", md: "1.15rem" }
+                }}
+              >
+                Professional web development, mobile apps & hosting solutions. 
+                Transform ideas into powerful software starting from R2,500.
+              </Typography>
+
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  component={RouterLink}
+                  to="/quote"
+                  endIcon={<FaArrowRight />}
+                  sx={{
+                    px: 4,
+                    py: 1.6,
+                    background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
+                    color: "white",
+                    fontSize: "0.95rem",
+                    fontWeight: 700,
+                    borderRadius: "50px",
+                    textTransform: "none",
+                    boxShadow: "0 8px 25px rgba(59, 130, 246, 0.3)",
+                    "&:hover": {
+                      background: "linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)",
+                      transform: "translateY(-2px)",
+                      boxShadow: "0 12px 30px rgba(59, 130, 246, 0.4)",
+                    },
+                  }}
+                >
+                  Start Your Project
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  component={RouterLink}
+                  to="/projects"
+                  sx={{
+                    px: 4,
+                    py: 1.6,
+                    borderColor: "rgba(59, 130, 246, 0.3)",
+                    color: "#3b82f6",
+                    fontSize: "0.95rem",
+                    fontWeight: 600,
+                    borderRadius: "50px",
+                    textTransform: "none",
+                    backdropFilter: "blur(10px)",
+                    bgcolor: "rgba(59, 130, 246, 0.05)",
+                    "&:hover": {
+                      borderColor: "#3b82f6",
+                      bgcolor: "rgba(59, 130, 246, 0.1)",
+                    },
+                  }}
+                >
+                  View Portfolio
+                </Button>
+              </Stack>
+            </motion.div>
           </Grid>
+
           <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" } }}>
-            <Box
-              component="img"
-              src={heroImage}
-              alt="Affordable custom website development and digital solutions by Malloya Group"
-              sx={{
-                width: "100%",
-                transform: "perspective(1000px) rotateY(-5deg)",
-                transition: "transform 0.5s ease",
-                "&:hover": {
-                  transform: "perspective(1000px) rotateY(0deg)",
-                },
-              }}
-            />
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <Box
+                component="img"
+                src={heroImage}
+                alt="Web Development Agency"
+                sx={{
+                  width: "100%",
+                  maxWidth: "600px",
+                  filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.2))",
+                  transform: "perspective(1000px) rotateY(-5deg)",
+                }}
+              />
+            </motion.div>
           </Grid>
         </Grid>
       </Container>
-      {/* Add subtle animated pattern overlay */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: "radial-gradient(rgba(255,255,255,0.08) 2px, transparent 2px)",
-          backgroundSize: "30px 30px",
-          pointerEvents: "none",
-          animation: "pulse 4s infinite alternate",
-          "@keyframes pulse": {
-            "0%": { opacity: 0.5 },
-            "100%": { opacity: 0.8 },
-          },
-        }}
-      />
-      {/* Add decorative shape */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "-20%",
-          right: "-10%",
-          width: "40%",
-          height: "70%",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)",
-          pointerEvents: "none",
-        }}
-      />
     </Box>
   )
 }
@@ -172,87 +214,43 @@ const Hero = () => {
 const Services = () => {
   const services = [
     {
-      title: "Affordable Website Development",
-      description:
-        "Custom responsive websites built to match your brand and meet your business goals. Starting from just 4 pages with fast delivery.",
+      title: "Custom Websites",
+      description: "Tailor-made responsive websites built with modern technologies like React and Next.js.",
       icon: FaLaptopCode,
       link: "/services",
     },
     {
-      title: "Mobile Apps",
-      description: "Native and cross-platform mobile applications for iOS and Android devices at competitive prices.",
+      title: "Mobile Applications",
+      description: "Native and cross-platform mobile apps for iOS and Android that deliver seamless experiences.",
       icon: FaMobileAlt,
       link: "/services",
     },
     {
-      title: "Budget-Friendly Web Hosting",
-      description: "Fast, secure and reliable hosting solutions with 99.9% uptime guarantee at affordable rates.",
+      title: "Cloud Hosting",
+      description: "Secure, high-speed hosting infrastructure with 99.9% uptime and 24/7 monitoring.",
       icon: FaServer,
       link: "/services",
     },
     {
-      title: "UI/UX Consultation",
-      description: "Expert consultation to enhance user experience and interface design without breaking the budget.",
+      title: "UI/UX Design",
+      description: "User-centered design that combines aesthetics with functionality for higher conversion.",
       icon: FaPaintBrush,
       link: "/services",
     },
   ]
 
   return (
-    <Box component="section" sx={{ py: 8, backgroundColor: "#f8f9ff" }}>
-      {" "}
-      {/* Light background */}
+    <Box component="section" sx={{ py: 10, bgcolor: "#f8f9fa" }}>
       <Container maxWidth="lg">
-        <Box sx={{ textAlign: "center", mb: 6 }}>
-          <Typography
-            variant="overline"
-            component="div"
-            sx={{
-              color: "#3a0ca3",
-              fontWeight: 600,
-              letterSpacing: 3,
-              mb: 1,
-            }}
-          >
-            AFFORDABLE SOLUTIONS
+        <Box sx={{ textAlign: "center", mb: 7 }}>
+          <Typography variant="overline" sx={{ color: "#3b82f6", fontWeight: 700, letterSpacing: 2, fontSize: "0.75rem" }}>
+            WHAT WE DO
           </Typography>
-          <Typography
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{
-              fontWeight: 700,
-              mb: 2,
-              color: "#1a1a2e",
-              position: "relative",
-              display: "inline-block",
-              "&::after": {
-                content: '""',
-                position: "absolute",
-                bottom: "-10px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "80px",
-                height: "4px",
-                backgroundColor: "#4361ee",
-                borderRadius: "2px",
-              },
-            }}
-          >
-            Our Budget-Friendly Services
+          <Typography variant="h2" sx={{ fontWeight: 800, mt: 1, mb: 1.5, color: "#0f172a", fontSize: { xs: "1.75rem", md: "2.2rem" } }}>
+            Full-Cycle Development Services
           </Typography>
-          <Typography
-            variant="h3"
-            component="h3"
-            sx={{
-              maxWidth: 700,
-              mx: "auto",
-              color: "#4a4a6a",
-              mt: 3,
-              fontSize: { xs: "1.2rem", md: "1.5rem" },
-            }}
-          >
-            Professional digital solutions that won't break your budget
+          <Typography variant="body1" sx={{ color: "#64748b", maxWidth: 600, mx: "auto", fontSize: "1rem" }}>
+            From concept to deployment, we handle every aspect of your digital presence.
           </Typography>
         </Box>
 
@@ -264,6 +262,7 @@ const Services = () => {
                 description={service.description}
                 icon={service.icon}
                 link={service.link}
+                buttonText="Discover"
               />
             </Grid>
           ))}
@@ -273,218 +272,122 @@ const Services = () => {
   )
 }
 
-const WebsitePackage = () => {
+const FeatureSection = () => {
   return (
-    <Box
-      component="section"
-      sx={{
-        py: 8,
-        background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)", // Deep blue gradient
-        color: "white",
-      }}
-    >
+    <Box sx={{ py: 10, bgcolor: "white" }}>
       <Container maxWidth="lg">
-        <Grid container spacing={4} alignItems="center">
+        <Grid container spacing={8} alignItems="center">
           <Grid item xs={12} md={6}>
-            <Typography
-              variant="overline"
-              component="div"
-              sx={{
-                color: "#4cc9f0",
-                letterSpacing: 2,
-                fontWeight: 600,
-                mb: 1,
-              }}
-            >
-              MOST AFFORDABLE PACKAGE
-            </Typography>
-            <Typography
-              variant="h3"
-              component="h2"
-              gutterBottom
-              fontWeight="bold"
-              sx={{
-                background: "linear-gradient(to right, #ffffff, #b8c0ff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Budget-Friendly Website Package
-            </Typography>
-            <Typography
-              variant="h4"
-              component="h4"
-              gutterBottom
-              sx={{ opacity: 0.9, mb: 3, fontSize: { xs: "1.1rem", md: "1.25rem" } }}
-            >
-              Professional 4-page website with all essential features at an unbeatable price
-            </Typography>
-            <Box sx={{ my: 3 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>Mobile-responsive design</Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>Professional UI customization</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>SEO-optimized structure</Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Box component={FaCheck} sx={{ mr: 2, color: "#4cc9f0", fontSize: 18 }} />
-                    <Typography>Contact form integration</Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
-            <Typography
-              variant="body1"
-              sx={{
-                mb: 3,
-                opacity: 0.9,
-                p: 2,
-                borderLeft: "3px solid #4cc9f0",
-                backgroundColor: "rgba(76, 201, 240, 0.1)",
-                borderRadius: "0 4px 4px 0",
-              }}
-            >
-              <strong>Fast Delivery:</strong> 3-5 business days
-              <br />
-              <strong>Affordable Pricing:</strong> Additional pages available upon request
-              <br />
-              <strong>Free Quote:</strong> Get your custom quote online today
-            </Typography>
-            <Button
-              variant="contained"
-              size="large"
-              component={RouterLink}
-              to="/quote"
-              startIcon={<FaRocket />}
-              sx={{
-                px: 4,
-                py: 1.5,
-                backgroundColor: "#4cc9f0",
-                color: "#16213e",
-                fontWeight: "bold",
-                borderRadius: "8px",
-                boxShadow: "0 4px 14px rgba(0,0,0,0.3)",
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  backgroundColor: "#7bdff2",
-                  transform: "translateY(-2px)",
-                },
-              }}
-              aria-label="Get free quote for affordable website package"
-            >
-              Get Free Quote Now
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                backgroundColor: "rgba(255,255,255,0.05)",
-                p: 4,
-                borderRadius: 2,
-                border: "1px solid rgba(255,255,255,0.1)",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
-                backdropFilter: "blur(10px)",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  width: "150px",
-                  height: "150px",
-                  background: "radial-gradient(circle, rgba(76,201,240,0.2) 0%, rgba(76,201,240,0) 70%)",
-                  borderRadius: "0 0 0 100%",
-                  zIndex: 0,
+            <Box sx={{ position: "relative" }}>
+              <Box 
+                sx={{ 
+                  background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)", 
+                  borderRadius: "20px", 
+                  p: 4, 
+                  color: "white",
+                  boxShadow: "0 20px 40px rgba(59, 130, 246, 0.25)",
+                  position: "relative",
+                  zIndex: 2
                 }}
-              />
-              <Box sx={{ position: "relative", zIndex: 1 }}>
-                <Box
-                  component={FaShoppingCart}
-                  sx={{
-                    fontSize: 28,
-                    color: "#4cc9f0",
-                    mb: 2,
-                  }}
-                />
-                <Typography variant="h4" component="h3" gutterBottom fontWeight="bold">
-                  Affordable E-Commerce Add-On
+              >
+                <Typography variant="h4" fontWeight="700" sx={{ mb: 2.5, fontSize: "1.6rem" }}>
+                  Starter Package
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 3 }}>
-                  Transform your budget website into a cost-effective online store:
+                <Typography variant="body1" sx={{ opacity: 0.9, mb: 3.5, fontSize: "0.95rem" }}>
+                  Everything you need to launch your professional presence online.
                 </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
-                        •
+                
+                <Stack spacing={1.8}>
+                  {[
+                    "4 Custom Designed Pages",
+                    "Mobile Responsive Layout",
+                    "SEO Optimization",
+                    "Contact Form Integration",
+                    "Social Media Links",
+                    "3-5 Days Delivery"
+                  ].map((item, i) => (
+                    <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                      <Box sx={{ bgcolor: "rgba(255,255,255,0.2)", p: 0.5, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <FaCheck size={10} />
                       </Box>
-                      <Typography>Shop & Product Pages</Typography>
+                      <Typography variant="body2" fontWeight="500" sx={{ fontSize: "0.9rem" }}>{item}</Typography>
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
-                        •
-                      </Box>
-                      <Typography>Secure Cart & Checkout</Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
-                        •
-                      </Box>
-                      <Typography>Category Management</Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
-                        •
-                      </Box>
-                      <Typography>User Account System</Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
-                        •
-                      </Box>
-                      <Typography>Wishlist Feature</Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box component="span" sx={{ mr: 1, color: "#4cc9f0", fontSize: 20 }}>
-                        •
-                      </Box>
-                      <Typography>Order Management</Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-                <Box
-                  sx={{
-                    mt: 3,
-                    p: 2,
-                    borderRadius: 1,
-                    backgroundColor: "rgba(76,201,240,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    border: "1px solid rgba(76,201,240,0.3)",
+                  ))}
+                </Stack>
+
+                <Button 
+                  variant="contained" 
+                  component={RouterLink}
+                  to="/quote"
+                  fullWidth 
+                  sx={{ 
+                    mt: 3.5, 
+                    bgcolor: "white", 
+                    color: "#3b82f6", 
+                    fontWeight: 700,
+                    fontSize: "0.9rem",
+                    py: 1.3,
+                    "&:hover": { bgcolor: "#f1f5f9" }
                   }}
                 >
-                  <MdSpeed style={{ marginRight: "8px", color: "#4cc9f0", fontSize: 22 }} />
-                  <Typography variant="body2">
-                    Budget-friendly pricing with just 5 additional days for e-commerce integration
-                  </Typography>
-                </Box>
+                  Get Started
+                </Button>
               </Box>
+              {/* Decorative backing */}
+              <Box 
+                sx={{ 
+                  position: "absolute", 
+                  top: 25, 
+                  left: 25, 
+                  width: "100%", 
+                  height: "100%", 
+                  bgcolor: "#e2e8f0", 
+                  borderRadius: "20px", 
+                  zIndex: 1 
+                }} 
+              />
             </Box>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="overline" sx={{ color: "#3b82f6", fontWeight: 700, letterSpacing: 2, fontSize: "0.75rem" }}>
+              BEST VALUE
+            </Typography>
+            <Typography variant="h3" sx={{ fontWeight: 800, mt: 1, mb: 2.5, color: "#0f172a", fontSize: { xs: "1.6rem", md: "2rem" } }}>
+              Professional Website Package
+            </Typography>
+            <Typography variant="body1" sx={{ color: "#64748b", mb: 3.5, fontSize: "1rem", lineHeight: 1.6 }}>
+              Perfect for small businesses, startups, and personal brands. We deliver a fully functional, aesthetically pleasing website that converts visitors into customers.
+            </Typography>
+            
+            <Grid container spacing={3} sx={{ mb: 3.5 }}>
+               <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: "flex", gap: 1.5 }}>
+                    <MdSpeed size={26} color="#3b82f6" />
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight="700" sx={{ fontSize: "0.95rem" }}>Fast Performance</Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.85rem" }}>Optimized for speed and core web vitals.</Typography>
+                    </Box>
+                  </Box>
+               </Grid>
+               <Grid item xs={12} sm={6}>
+                  <Box sx={{ display: "flex", gap: 1.5 }}>
+                    <MdSecurity size={26} color="#3b82f6" />
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight="700" sx={{ fontSize: "0.95rem" }}>Secure & Safe</Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: "0.85rem" }}>SSL certificates and secure coding practices.</Typography>
+                    </Box>
+                  </Box>
+               </Grid>
+            </Grid>
+            
+            <Button 
+              component={RouterLink} 
+              to="/services" 
+              endIcon={<FaArrowRight />}
+              sx={{ color: "#3b82f6", fontWeight: 600, fontSize: "0.9rem" }}
+            >
+              Compare all packages
+            </Button>
           </Grid>
         </Grid>
       </Container>
@@ -492,300 +395,55 @@ const WebsitePackage = () => {
   )
 }
 
-const CMSAddOn = () => {
+const EcommerceSection = () => {
   return (
-    <Box
-      component="section"
-      sx={{
-        py: 8,
-        backgroundColor: "#f8f9ff", // Light background
-      }}
-    >
-      <Container maxWidth="lg">
-        <Grid container spacing={4} alignItems="center">
+    <Box sx={{ py: 10, bgcolor: "#1e293b", color: "white", position: "relative", overflow: "hidden" }}>
+       {/* Background Pattern */}
+       <Box sx={{ 
+         position: "absolute", 
+         top: 0, 
+         left: 0, 
+         right: 0, 
+         bottom: 0, 
+         opacity: 0.03,
+         backgroundImage: "linear-gradient(30deg, #ffffff 12%, transparent 12.5%, transparent 87%, #ffffff 87.5%, #ffffff), linear-gradient(150deg, #ffffff 12%, transparent 12.5%, transparent 87%, #ffffff 87.5%, #ffffff), linear-gradient(30deg, #ffffff 12%, transparent 12.5%, transparent 87%, #ffffff 87.5%, #ffffff), linear-gradient(150deg, #ffffff 12%, transparent 12.5%, transparent 87%, #ffffff 87.5%, #ffffff), linear-gradient(60deg, #777777 25%, transparent 25.5%, transparent 75%, #777777 75%, #777777), linear-gradient(60deg, #777777 25%, transparent 25.5%, transparent 75%, #777777 75%, #777777)",
+         backgroundSize: "80px 140px",
+         backgroundPosition: "0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px"
+       }} />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        <Box sx={{ textAlign: "center", mb: 7 }}>
+          <Typography variant="overline" sx={{ color: "#a78bfa", fontWeight: 700, letterSpacing: 2, fontSize: "0.75rem" }}>
+            E-COMMERCE & CMS
+          </Typography>
+          <Typography variant="h2" sx={{ fontWeight: 800, mt: 1, mb: 1.5, fontSize: { xs: "1.75rem", md: "2.2rem" } }}>
+            Scale Your Business Online
+          </Typography>
+          <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.7)", maxWidth: 700, mx: "auto", fontSize: "1rem" }}>
+            Powerful online stores and content management systems that put you in control.
+          </Typography>
+        </Box>
+
+        <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                borderRadius: "12px",
-                p: 4,
-                backgroundColor: "white",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-                height: "100%",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "6px",
-                  background: "linear-gradient(to right, #3a0ca3, #4361ee)",
-                }}
-              />
-              <MdDashboard style={{ fontSize: 32, color: "#3a0ca3", marginBottom: "16px" }} />
-              <Typography
-                variant="h3"
-                component="h2"
-                gutterBottom
-                sx={{
-                  fontWeight: 700,
-                  color: "#1a1a2e", // Deep blue text
-                }}
-              >
-                Affordable CMS Add-On
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  mb: 3,
-                  color: "#4a4a6a",
-                }}
-              >
-                Perfect for budget-conscious businesses needing an easy way to update their website content without
-                coding knowledge.
-              </Typography>
-
-              <Box sx={{ my: 3 }}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                      <Box
-                        component={FaCheck}
-                        sx={{
-                          mr: 2,
-                          color: "#3a0ca3",
-                          fontSize: 16,
-                          p: 0.5,
-                          backgroundColor: "rgba(58,12,163,0.1)",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <Typography>
-                        <strong>User-Friendly Admin Dashboard</strong> – Easily update text, images, and pages
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                      <Box
-                        component={FaCheck}
-                        sx={{
-                          mr: 2,
-                          color: "#3a0ca3",
-                          fontSize: 16,
-                          p: 0.5,
-                          backgroundColor: "rgba(58,12,163,0.1)",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <Typography>
-                        <strong>SEO-optimized structure</strong> – Built for search engine visibility
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                      <Box
-                        component={FaCheck}
-                        sx={{
-                          mr: 2,
-                          color: "#3a0ca3",
-                          fontSize: 16,
-                          p: 0.5,
-                          backgroundColor: "rgba(58,12,163,0.1)",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <Typography>
-                        <strong>User roles & permissions</strong> – Control who can edit or manage content
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                      <Box
-                        component={FaCheck}
-                        sx={{
-                          mr: 2,
-                          color: "#3a0ca3",
-                          fontSize: 16,
-                          p: 0.5,
-                          backgroundColor: "rgba(58,12,163,0.1)",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <Typography>
-                        <strong>Signup & Login Pages</strong> – Allows users to create and manage accounts
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box>
-
-              <Box
-                sx={{
-                  backgroundColor: "rgba(58,12,163,0.05)",
-                  p: 2,
-                  borderRadius: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  border: "1px dashed rgba(58,12,163,0.2)",
-                }}
-              >
-                <MdSchedule style={{ marginRight: "12px", color: "#3a0ca3", fontSize: 24 }} />
-                <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                  <strong>Cost-effective CMS solution</strong> <br />{" "}
-                  <strong>Only 5 additional days for integration</strong>
-                </Typography>
-              </Box>
-            </Box>
+            <ServiceCard
+              title="E-Commerce Solutions"
+              description="Full-featured online stores with secure payments, inventory management, and order tracking. Start selling to the world."
+              icon={FaShoppingCart}
+              variant="dark"
+              buttonText="View Features"
+              link="/services"
+            />
           </Grid>
-
           <Grid item xs={12} md={6}>
-            <Box>
-              <Typography
-                variant="overline"
-                component="div"
-                sx={{
-                  color: "#3a0ca3",
-                  fontWeight: 600,
-                  letterSpacing: 2,
-                  mb: 1,
-                }}
-              >
-                BUDGET-FRIENDLY CONTENT MANAGEMENT
-              </Typography>
-              <Typography
-                variant="h4"
-                component="h3"
-                gutterBottom
-                sx={{
-                  fontWeight: 700,
-                  color: "#1a1a2e", // Deep blue text
-                  mb: 3,
-                }}
-              >
-                Why Choose Our Affordable CMS Solution?
-              </Typography>
-
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="body1" paragraph sx={{ color: "#4a4a6a" }}>
-                  Our budget-friendly Content Management System empowers you to take control of your website without any
-                  technical knowledge or expensive ongoing costs.
-                </Typography>
-
-                <Typography variant="body1" paragraph sx={{ color: "#4a4a6a" }}>
-                  With our intuitive admin dashboard, you can manage your affordable website easily:
-                </Typography>
-              </Box>
-
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    sx={{
-                      mb: 3,
-                      p: 3,
-                      borderRadius: "12px",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
-                      backgroundColor: "white",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "translateY(-5px)",
-                        boxShadow: "0 12px 28px rgba(0,0,0,0.1)",
-                      },
-                    }}
-                  >
-                    <Box sx={{ mb: 2, color: "#3a0ca3" }}>
-                      <FaUsersCog style={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Easy Content Updates
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Change text, images, and add new pages without coding knowledge or additional costs
-                    </Typography>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    sx={{
-                      mb: 3,
-                      p: 3,
-                      borderRadius: "12px",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
-                      backgroundColor: "white",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "translateY(-5px)",
-                        boxShadow: "0 12px 28px rgba(0,0,0,0.1)",
-                      },
-                    }}
-                  >
-                    <Box sx={{ mb: 2, color: "#3a0ca3" }}>
-                      <FaUsersCog style={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      User Management
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Add team members with specific permissions and access levels at no extra cost
-                    </Typography>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    sx={{
-                      mb: 3,
-                      p: 3,
-                      borderRadius: "12px",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
-                      backgroundColor: "white",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "translateY(-5px)",
-                        boxShadow: "0 12px 28px rgba(0,0,0,0.1)",
-                      },
-                    }}
-                  >
-                    <Box sx={{ mb: 2, color: "#3a0ca3" }}>
-                      <MdAnalytics style={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Performance Tracking
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Built-in analytics to monitor visitor behavior and engagement on your affordable website
-                    </Typography>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <Box
-                    sx={{
-                      mb: 3,
-                      p: 3,
-                      borderRadius: "12px",
-                      boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
-                      backgroundColor: "white",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "translateY(-5px)",
-                        boxShadow: "0 12px 28px rgba(0,0,0,0.1)",
-                      },
-                    }}
-                  >
-                    <Box sx={{ mb: 2, color: "#3a0ca3" }}>
-                      <MdSchedule style={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ color: "#1a1a2e", mb: 1 }}>
-                      Content Scheduling
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "#4a4a6a" }}>
-                      Plan and schedule content updates for future publication without ongoing fees
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
+            <ServiceCard
+              title="Content Management Systems"
+              description="Easy-to-use dashboards that let you update your content, blog posts, and images without writing a line of code."
+              icon={MdDashboard}
+              variant="dark"
+              buttonText="Explore CMS"
+              link="/services"
+            />
           </Grid>
         </Grid>
       </Container>
@@ -795,93 +453,40 @@ const CMSAddOn = () => {
 
 const CallToAction = () => {
   return (
-    <Box
-      component="section"
-      sx={{
-        py: 10,
-        textAlign: "center",
-        background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)", // Matching hero gradient
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Add decorative elements for visual interest */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "10%",
-          left: "5%",
-          width: "300px",
-          height: "300px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "10%",
-          right: "5%",
-          width: "200px",
-          height: "200px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
+    <Box sx={{ 
+      py: 8, 
+      background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)", 
+      color: "white", 
+      textAlign: "center" 
+    }}>
       <Container maxWidth="md">
-        <Typography
-          variant="h3"
-          component="h2"
-          gutterBottom
-          sx={{
-            fontWeight: 700,
-            mb: 3,
-            color: "#ffffff", // White text
-            textShadow: "0 2px 10px rgba(0,0,0,0.2)",
-          }}
-        >
-          Ready to Get Your Affordable Website?
+        <Typography variant="h3" sx={{ fontWeight: 800, mb: 2.5, fontSize: { xs: "1.75rem", md: "2.2rem" } }}>
+          Ready to Transform Your Digital Presence?
         </Typography>
-        <Typography
-          variant="h4"
-          component="h4"
-          sx={{
-            maxWidth: 700,
-            mx: "auto",
-            mb: 5,
-            color: "rgba(255,255,255,0.9)", // Semi-transparent white
-            fontSize: { xs: "1.1rem", md: "1.25rem" },
-          }}
-        >
-          Get your free quote today and start your digital journey with budget-friendly professional web development.
+        <Typography variant="h6" sx={{ mb: 4, opacity: 0.9, fontWeight: 400, fontSize: { xs: "1rem", md: "1.1rem" } }}>
+          Join hundreds of satisfied clients who trust Malloya Group with their web development needs.
         </Typography>
         <Button
           variant="contained"
           size="large"
           component={RouterLink}
           to="/contact"
-          startIcon={<FaRocket />}
           sx={{
+            bgcolor: "white",
+            color: "#3b82f6",
             px: 5,
-            py: 1.5,
-            backgroundColor: "#ffffff",
-            color: "#3a0ca3",
-            fontWeight: "bold",
-            borderRadius: "8px",
-            boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
-            transition: "all 0.3s ease",
+            py: 1.8,
+            fontSize: "1rem",
+            fontWeight: 700,
+            borderRadius: "50px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
             "&:hover": {
-              backgroundColor: "#f0f0ff",
-              transform: "translateY(-3px)",
-              boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
-            },
+              bgcolor: "#f8f9fa",
+              transform: "scale(1.05)"
+            }
           }}
-          aria-label="Contact us for affordable website development"
         >
-          Get Free Quote Now
+          Get Your Free Quote
         </Button>
       </Container>
     </Box>
@@ -894,9 +499,9 @@ const Home = () => {
       <SEOHelmet />
       <Hero />
       <Services />
+      <FeatureSection />
       <HostingPlans />
-      <WebsitePackage />
-      <CMSAddOn />
+      <EcommerceSection />
       <CallToAction />
     </>
   )

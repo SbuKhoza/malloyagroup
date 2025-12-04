@@ -5,115 +5,9 @@ import {
   Typography, 
   Grid, 
   useMediaQuery,
-  useTheme,
-  Button,
-  Paper
+  useTheme
 } from '@mui/material';
-
-const PricingCard = ({ plan, isPopular }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  
-  return (
-    <Paper
-      elevation={0}
-      sx={{ 
-        height: '100%',
-        width: '100%', // Ensure card takes full width of container
-        borderRadius: 2,
-        border: '1px solid',
-        borderColor: isPopular ? 'secondary.main' : 'divider',
-        position: 'relative',
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-        overflow: 'hidden',
-        '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-        }
-      }}
-    >
-      {isPopular && (
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 16,
-            right: -35,
-            transform: 'rotate(45deg)',
-            backgroundColor: 'secondary.main',
-            color: '#002244',
-            py: 0.5,
-            px: 4,
-            fontWeight: 'bold',
-            fontSize: 14,
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}
-        >
-          POPULAR
-        </Box>
-      )}
-      <Box 
-        sx={{ 
-          p: 3, 
-          backgroundColor: isPopular ? 'rgba(240,248,255,0.2)' : 'background.paper',
-          borderBottom: '1px solid',
-          borderColor: isPopular ? 'secondary.main' : 'divider',
-          textAlign: 'center'
-        }}
-      >
-        <Typography variant="h5" component="h3" fontWeight="bold" gutterBottom>
-          {plan.title}
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', mb: 2 }}>
-          <Typography component="span" variant="h3" fontWeight="bold">
-            R{plan.price}
-          </Typography>
-          <Typography component="span" variant="h6" color="text.secondary" sx={{ ml: 1 }}>
-            /mo
-          </Typography>
-        </Box>
-        <Button 
-          variant={isPopular ? "contained" : "outlined"} 
-          color={isPopular ? "secondary" : "primary"}
-          fullWidth
-          sx={{ 
-            py: 1.2,
-            ...(isPopular && {
-              backgroundColor: '#F0F8FF',
-              color: '#002244',
-              '&:hover': {
-                backgroundColor: '#d7e9fa',
-              }
-            })
-          }}
-        >
-          Choose Plan
-        </Button>
-      </Box>
-      <Box sx={{ p: 3 }}>
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1, fontWeight: 'medium' }}>
-            FEATURES
-          </Typography>
-        </Box>
-        {plan.features.map((feature, idx) => (
-          <Box 
-            key={idx} 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              mb: 1.5,
-              color: isPopular && idx < 5 ? 'text.primary' : 'text.secondary',
-              fontWeight: isPopular && idx < 5 ? 'medium' : 'regular'
-            }}
-          >
-            <Box component="span" sx={{ mr: 1, color: isPopular ? 'secondary.main' : 'primary.main', fontSize: 18 }}>✓</Box>
-            <Typography variant="body2">{feature}</Typography>
-          </Box>
-        ))}
-      </Box>
-    </Paper>
-  );
-};
+import PricingCard from './PricingCard';
 
 const HostingPlans = () => {
   const theme = useTheme();
@@ -132,8 +26,7 @@ const HostingPlans = () => {
         '5 Email Accounts',
         'Free SSL Certificate',
         'LiteSpeed Caching',
-        'Softaculous (400+ Apps)',
-        'JetBackup Weekly Backups'
+        'Weekly Backups'
       ],
       popular: false
     },
@@ -149,8 +42,6 @@ const HostingPlans = () => {
         '10 Email Accounts',
         'Free SSL Certificate',
         'LiteSpeed Caching',
-        'Softaculous (400+ Apps)',
-        'JetBackup Weekly Backups',
         'Imunify360 Protection'
       ],
       popular: true
@@ -167,10 +58,7 @@ const HostingPlans = () => {
         '20 Email Accounts',
         'Free SSL Certificate',
         'LiteSpeed Caching',
-        'Softaculous (400+ Apps)',
-        'JetBackup Weekly Backups',
-        'Imunify360 Protection',
-        'Premium Site Builder'
+        'Priority Support'
       ],
       popular: false
     },
@@ -182,14 +70,10 @@ const HostingPlans = () => {
         '20 GB NVMe SSD Storage',
         'Unlimited Bandwidth',
         'Unlimited Websites',
-        '20 Databases',
+        'Unlimited Databases',
         '30 Email Accounts',
         'Free SSL Certificate',
         'LiteSpeed Caching',
-        'Softaculous (400+ Apps)',
-        'JetBackup Weekly Backups',
-        'Imunify360 Protection',
-        'Premium Site Builder',
         'Private Nameservers'
       ],
       popular: false
@@ -198,127 +82,63 @@ const HostingPlans = () => {
 
   return (
     <Box sx={{ 
-      py: 8, 
-      backgroundColor: '#F0F8FF',
-      position: 'relative',
-      overflow: 'hidden'
+      py: 10, 
+      background: 'linear-gradient(to bottom, #ffffff 0%, #f8f9ff 100%)',
+      position: 'relative'
     }}>
-      {/* Subtle pattern overlay */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'radial-gradient(rgba(0,34,68,0.03) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
-          pointerEvents: 'none'
-        }}
-      />
-      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 } }}> {/* Adjusted padding for mobile */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <Typography 
+            variant="overline" 
+            sx={{ 
+              color: '#4361ee', 
+              fontWeight: 700, 
+              letterSpacing: 2,
+              mb: 1,
+              display: 'block'
+            }}
+          >
+            HOSTING PACKAGES
+          </Typography>
           <Typography 
             variant="h2" 
             component="h2" 
-            gutterBottom
             sx={{ 
-              fontWeight: 700,
+              fontWeight: 800,
               mb: 2,
-              color: '#002244', // Navy text
-              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } // Responsive font size
+              color: '#0f172a',
+              fontSize: { xs: '2rem', md: '2.5rem' }
             }}
           >
-            Hosting Plans
+            Reliable Hosting for Every Need
           </Typography>
           <Typography 
-            variant="h5" 
-            color="text.secondary"
+            variant="h6" 
             sx={{ 
-              maxWidth: 800,
+              maxWidth: 700,
               mx: 'auto',
-              mb: 2,
-              color: 'rgba(0,34,68,0.8)', // Semi-transparent navy
-              fontSize: { xs: '1.1rem', sm: '1.25rem', md: '1.5rem' } // Responsive font size
+              color: '#64748b',
+              fontWeight: 400,
+              lineHeight: 1.6
             }}
           >
-            Fast, secure, and reliable web hosting for your business
-          </Typography>
-          <Typography 
-            variant="body1"
-            sx={{ 
-              color: 'rgba(0,34,68,0.7)',
-              fontWeight: 'medium'
-            }}
-          >
-            All plans include 99.9% uptime guarantee.
+            Secure, fast, and scalable hosting solutions with 99.9% uptime guarantee and 24/7 local support.
           </Typography>
         </Box>
 
-        {/* Mobile view - single column layout with centered cards */}
-        {isMobile ? (
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center',
-            gap: 3
-          }}>
-            {hostingPlans.map((plan, index) => (
-              <Box 
-                key={index}
-                sx={{ 
-                  width: '100%', 
-                  maxWidth: '350px' // Set maximum width for mobile cards
-                }}
-              >
-                <PricingCard plan={plan} isPopular={plan.popular} />
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          // Desktop view - grid layout
-          <Grid container spacing={3} justifyContent="center">
-            {hostingPlans.map((plan, index) => (
-              <Grid 
-                item 
-                xs={12} 
-                sm={6} 
-                md={3} 
-                key={index}
-                sx={{
-                  display: 'flex'
-                }}
-              >
-                <PricingCard plan={plan} isPopular={plan.popular} />
-              </Grid>
-            ))}
-          </Grid>
-        )}
-
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography 
-            variant="body1" 
-            color="text.secondary" 
-            sx={{ mb: 3 }}
-          >
-            Need a custom hosting solution? Contact our team for personalized options.
-          </Typography>
-          <Button 
-            variant="contained" 
-            color="primary"
-            size="large"
-            sx={{ 
-              px: 4, 
-              py: 1.2, 
-              backgroundColor: '#002244',
-              '&:hover': {
-                backgroundColor: '#001a33',
-              }
-            }}
-          >
-            Contact Sales
-          </Button>
-        </Box>
+        <Grid container spacing={4} justifyContent="center">
+          {hostingPlans.map((plan, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <PricingCard 
+                title={plan.title}
+                price={plan.price}
+                features={plan.features}
+                popular={plan.popular}
+                buttonText={plan.popular ? "Get Started" : "Choose Plan"}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </Box>
   );
