@@ -31,8 +31,8 @@ const Hero = () => {
       sx={{
         background: "#ffffff",
         color: "#1e293b",
-        pt: { xs: 10, md: 5 },
-        pb: { xs: 10, md: 5 },
+        pt: { xs: 5, md: 1 },
+        pb: { xs: 5, md: 1 },
         position: "relative",
         overflow: "hidden",
       }}
