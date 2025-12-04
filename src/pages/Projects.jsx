@@ -37,7 +37,7 @@ import { motion } from "framer-motion"
 
 // Format currency helper
 const formatPrice = (price) => {
-  if (!price) return "From R4,500"; // Default fallback price
+  if (!price) return "R"; // Default fallback price
   return typeof price === 'number' 
     ? new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', maximumFractionDigits: 0 }).format(price)
     : price;
@@ -67,7 +67,7 @@ function Projects() {
           const data = doc.data();
           // Add default price if missing, logic as requested
           if (!data.price) {
-            data.price = "From R4,500";
+            data.price = "R";
           }
           projectsData.push({
             id: doc.id,
