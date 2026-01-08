@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import {
   Container,
@@ -22,29 +20,35 @@ import {
   Skeleton,
   Alert,
   useTheme,
-  Fade
+  useMediaQuery,
+  Fade,
+  Stack,
+  Slide
 } from "@mui/material"
 import {
   Close as CloseIcon,
   Launch as LaunchIcon,
   RequestQuote as QuoteIcon,
   Visibility as ViewIcon,
+  ArrowForward as ArrowIcon
 } from "@mui/icons-material"
 import { collection, getDocs, query, orderBy } from "firebase/firestore"
-import { db } from "../firebase/config" 
-import QuoteForm from "../components/QuoteForm" 
+import { db } from "../firebase/config"
+import QuoteForm from "../components/QuoteForm"
 import { motion } from "framer-motion"
 
 // Format currency helper
 const formatPrice = (price) => {
-  if (!price) return "R"; // Default fallback price
+  if (!price) return "R"
   return typeof price === 'number' 
     ? new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', maximumFractionDigits: 0 }).format(price)
-    : price;
+    : price
 }
 
 function Projects() {
-  const theme = useTheme();
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'))
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -64,10 +68,9 @@ function Projects() {
 
         const projectsData = []
         querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          // Add default price if missing, logic as requested
+          const data = doc.data()
           if (!data.price) {
-            data.price = "R";
+            data.price = "R"
           }
           projectsData.push({
             id: doc.id,
@@ -124,80 +127,129 @@ function Projects() {
     })
   }
 
+  // Loading skeleton
   if (loading) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Box sx={{ textAlign: "center", mb: 6 }}>
-           <Skeleton variant="text" height={60} width="40%" sx={{ mx: "auto" }} />
-           <Skeleton variant="text" height={30} width="60%" sx={{ mx: "auto" }} />
-        </Box>
-        <Grid container spacing={4}>
-          {[...Array(6)].map((_, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card sx={{ borderRadius: 4 }}>
-                <Skeleton variant="rectangular" height={240} />
-                <CardContent>
-                  <Skeleton variant="text" height={32} />
-                  <Skeleton variant="text" height={20} />
-                  <Skeleton variant="text" height={20} width="60%" />
-                </CardContent>
-                <CardActions sx={{ p: 2 }}>
-                  <Skeleton variant="rectangular" width={100} height={36} sx={{ borderRadius: 2 }} />
-                  <Skeleton variant="rectangular" width={100} height={36} sx={{ borderRadius: 2 }} />
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      <Box sx={{ 
+        bgcolor: "#f8f9fa", 
+        minHeight: "100vh", 
+        py: { xs: 4, sm: 6, md: 8 } 
+      }}>
+        <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
+          <Box sx={{ textAlign: "center", mb: { xs: 4, md: 6 } }}>
+            <Skeleton 
+              variant="text" 
+              height={isMobile ? 45 : 60} 
+              width={isMobile ? "80%" : "40%"} 
+              sx={{ mx: "auto", borderRadius: 2 }} 
+            />
+            <Skeleton 
+              variant="text" 
+              height={isMobile ? 24 : 30} 
+              width={isMobile ? "95%" : "60%"} 
+              sx={{ mx: "auto", mt: 1, borderRadius: 1 }} 
+            />
+          </Box>
+          <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+            {[...Array(isMobile ? 4 : 6)].map((_, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card sx={{ borderRadius: { xs: 3, md: 4 }, overflow: "hidden" }}>
+                  <Skeleton variant="rectangular" height={isMobile ? 180 : 240} />
+                  <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+                    <Skeleton variant="text" height={28} width="70%" />
+                    <Skeleton variant="rounded" height={24} width={80} sx={{ my: 1, borderRadius: 1 }} />
+                    <Skeleton variant="text" height={18} />
+                    <Skeleton variant="text" height={18} width="80%" />
+                  </CardContent>
+                  <Box sx={{ px: { xs: 2, sm: 3 }, pb: { xs: 2, sm: 3 } }}>
+                    <Stack direction="row" spacing={1} justifyContent="space-between">
+                      <Skeleton variant="rounded" width={90} height={36} sx={{ borderRadius: 2 }} />
+                      <Skeleton variant="rounded" width={100} height={36} sx={{ borderRadius: 2 }} />
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
     )
   }
 
+  // Error state
   if (error) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Alert severity="error" sx={{ mb: 4, borderRadius: 2 }}>
-          {error}
-        </Alert>
-      </Container>
+      <Box sx={{ 
+        bgcolor: "#f8f9fa", 
+        minHeight: "100vh", 
+        py: { xs: 4, md: 8 },
+        px: 2 
+      }}>
+        <Container maxWidth="lg">
+          <Alert 
+            severity="error" 
+            sx={{ 
+              borderRadius: 3, 
+              fontSize: { xs: "0.9rem", sm: "1rem" } 
+            }}
+          >
+            {error}
+          </Alert>
+        </Container>
+      </Box>
     )
   }
 
   return (
-    <Box sx={{ bgcolor: "#f8f9fa", minHeight: "100vh", py: 8 }}>
-      <Container maxWidth="lg">
+    <Box sx={{ 
+      bgcolor: "#f8f9fa", 
+      minHeight: "100vh", 
+      py: { xs: 4, sm: 6, md: 8 } 
+    }}>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography 
-            variant="h2" 
-            component="h1" 
-            align="center" 
-            sx={{ 
-              mb: 2, 
-              fontWeight: 800,
-              fontSize: { xs: "2.5rem", md: "3.5rem" },
-              background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent"
-            }}
-          >
-            Our Masterpieces
-          </Typography>
+          {/* Header Section */}
+          <Box sx={{ textAlign: "center", mb: { xs: 4, sm: 6, md: 8 } }}>
+            <Typography 
+              variant="h2" 
+              component="h1" 
+              sx={{ 
+                mb: { xs: 1.5, md: 2 }, 
+                fontWeight: 800,
+                fontSize: { xs: "1.75rem", sm: "2.25rem", md: "3rem", lg: "3.5rem" },
+                background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                lineHeight: 1.2,
+                px: { xs: 1, sm: 0 }
+              }}
+            >
+              Our Masterpieces
+            </Typography>
 
-          <Typography 
-            variant="h5" 
-            color="text.secondary" 
-            align="center" 
-            sx={{ mb: 8, maxWidth: 700, mx: "auto", fontWeight: 400 }}
-          >
-            Explore our portfolio of custom-built solutions designed to grow businesses.
-          </Typography>
+            <Typography 
+              variant="h5" 
+              color="text.secondary" 
+              sx={{ 
+                maxWidth: 700, 
+                mx: "auto", 
+                fontWeight: 400,
+                fontSize: { xs: "0.95rem", sm: "1.1rem", md: "1.25rem" },
+                lineHeight: 1.6,
+                px: { xs: 1, sm: 2 }
+              }}
+            >
+              Explore our portfolio of custom-built solutions designed to grow businesses.
+            </Typography>
+          </Box>
         </motion.div>
 
-        <Grid container spacing={4}>
+        {/* Projects Grid */}
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {projects.map((project, index) => (
             <Grid item xs={12} sm={6} md={4} key={project.id}>
               <motion.div
@@ -210,25 +262,33 @@ function Projects() {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    borderRadius: 4,
+                    borderRadius: { xs: 3, md: 4 },
                     overflow: "hidden",
                     border: "1px solid",
-                    borderColor: "divider",
+                    borderColor: "rgba(0,0,0,0.06)",
                     boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-                    transition: "all 0.3s ease",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    bgcolor: "#ffffff",
                     "&:hover": {
-                      transform: "translateY(-8px)",
-                      boxShadow: "0 12px 30px rgba(0,0,0,0.12)",
+                      transform: { xs: "none", sm: "translateY(-8px)" },
+                      boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
                       "& .project-image": {
                         transform: "scale(1.05)"
                       }
                     },
+                    "&:active": {
+                      transform: { xs: "scale(0.98)", sm: "translateY(-8px)" }
+                    }
                   }}
                 >
-                  <Box sx={{ position: "relative", overflow: "hidden", height: 240 }}>
+                  {/* Image Container */}
+                  <Box sx={{ 
+                    position: "relative", 
+                    overflow: "hidden", 
+                    height: { xs: 180, sm: 200, md: 240 }
+                  }}>
                     <CardMedia
                       component="img"
-                      height="240"
                       className="project-image"
                       image={
                         project.images && project.images.length > 0
@@ -237,46 +297,76 @@ function Projects() {
                       }
                       alt={project.name}
                       sx={{ 
+                        width: "100%",
+                        height: "100%",
                         objectFit: "cover",
-                        transition: "transform 0.5s ease" 
+                        transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)" 
                       }}
                     />
+                    {/* Price Badge */}
                     <Box 
                       sx={{ 
                         position: "absolute", 
-                        top: 16, 
-                        right: 16,
-                        bgcolor: "rgba(255, 255, 255, 0.9)",
-                        backdropFilter: "blur(4px)",
-                        px: 1.5,
-                        py: 0.5,
-                        borderRadius: "20px",
+                        top: { xs: 12, md: 16 }, 
+                        right: { xs: 12, md: 16 },
+                        bgcolor: "rgba(255, 255, 255, 0.95)",
+                        backdropFilter: "blur(8px)",
+                        px: { xs: 1.5, md: 2 },
+                        py: { xs: 0.5, md: 0.75 },
+                        borderRadius: "24px",
                         fontWeight: 700,
-                        fontSize: "0.85rem",
+                        fontSize: { xs: "0.75rem", sm: "0.8rem", md: "0.85rem" },
                         color: "#3a0ca3",
-                        boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
                       }}
                     >
                       {formatPrice(project.price)}
                     </Box>
+                    {/* Gradient Overlay */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "50%",
+                        background: "linear-gradient(to top, rgba(0,0,0,0.1), transparent)",
+                        pointerEvents: "none"
+                      }}
+                    />
                   </Box>
 
-                  <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
-                      <Typography gutterBottom variant="h6" component="h2" sx={{ fontWeight: 700, lineHeight: 1.3 }}>
-                        {project.name}
-                      </Typography>
-                    </Box>
+                  {/* Content */}
+                  <CardContent sx={{ 
+                    flexGrow: 1, 
+                    p: { xs: 2, sm: 2.5, md: 3 },
+                    "&:last-child": { pb: 0 }
+                  }}>
+                    <Typography 
+                      variant="h6" 
+                      component="h2" 
+                      sx={{ 
+                        fontWeight: 700, 
+                        lineHeight: 1.3,
+                        fontSize: { xs: "1rem", sm: "1.1rem", md: "1.15rem" },
+                        mb: 1,
+                        color: "#1a1a2e"
+                      }}
+                    >
+                      {project.name}
+                    </Typography>
                     
                     <Chip 
                       label={project.type} 
                       size="small" 
                       sx={{ 
-                        mb: 2, 
+                        mb: { xs: 1.5, md: 2 }, 
                         bgcolor: "rgba(67, 97, 238, 0.1)", 
                         color: "#4361ee", 
                         fontWeight: 600,
-                        borderRadius: "6px"
+                        borderRadius: "8px",
+                        height: { xs: 24, md: 28 },
+                        fontSize: { xs: "0.7rem", md: "0.75rem" }
                       }} 
                     />
                     
@@ -285,43 +375,69 @@ function Projects() {
                       color="text.secondary"
                       sx={{
                         display: "-webkit-box",
-                        WebkitLineClamp: 3,
+                        WebkitLineClamp: { xs: 2, md: 3 },
                         WebkitBoxOrient: "vertical",
                         overflow: "hidden",
-                        mb: 2,
-                        lineHeight: 1.6
+                        lineHeight: 1.6,
+                        fontSize: { xs: "0.85rem", md: "0.875rem" }
                       }}
                     >
                       {project.description}
                     </Typography>
                   </CardContent>
                   
-                  <Box sx={{ px: 3, pb: 3, pt: 0 }}>
-                    <CardActions sx={{ p: 0, justifyContent: "space-between" }}>
+                  {/* Actions */}
+                  <Box sx={{ 
+                    px: { xs: 2, sm: 2.5, md: 3 }, 
+                    pb: { xs: 2, sm: 2.5, md: 3 }, 
+                    pt: { xs: 1.5, md: 2 }
+                  }}>
+                    <Stack 
+                      direction="row" 
+                      spacing={1} 
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
                       <Button 
-                        size="medium" 
+                        size={isMobile ? "small" : "medium"}
                         color="inherit"
                         onClick={() => handleViewDetails(project)}
-                        sx={{ textTransform: "none", fontWeight: 600, color: "#64748b" }}
+                        sx={{ 
+                          textTransform: "none", 
+                          fontWeight: 600, 
+                          color: "#64748b",
+                          fontSize: { xs: "0.8rem", md: "0.875rem" },
+                          px: { xs: 1.5, md: 2 },
+                          "&:hover": {
+                            bgcolor: "rgba(100, 116, 139, 0.08)"
+                          }
+                        }}
                       >
                         Details
                       </Button>
                       <Button
-                        size="medium"
+                        size={isMobile ? "small" : "medium"}
                         variant="contained"
                         onClick={() => handleRequestQuote(project)}
+                        endIcon={!isMobile && <ArrowIcon sx={{ fontSize: 18 }} />}
                         sx={{ 
                           bgcolor: "#3a0ca3",
-                          borderRadius: 2,
+                          borderRadius: { xs: 2, md: 2.5 },
                           textTransform: "none",
                           fontWeight: 600,
+                          fontSize: { xs: "0.8rem", md: "0.875rem" },
+                          px: { xs: 2, md: 2.5 },
+                          py: { xs: 0.75, md: 1 },
                           boxShadow: "0 4px 14px rgba(58, 12, 163, 0.3)",
-                          "&:hover": { bgcolor: "#2e0a82" }
+                          "&:hover": { 
+                            bgcolor: "#2e0a82",
+                            boxShadow: "0 6px 20px rgba(58, 12, 163, 0.4)"
+                          }
                         }}
                       >
                         Get Quote
                       </Button>
-                    </CardActions>
+                    </Stack>
                   </Box>
                 </Card>
               </motion.div>
@@ -329,9 +445,18 @@ function Projects() {
           ))}
         </Grid>
 
+        {/* Empty State */}
         {projects.length === 0 && !loading && (
-          <Box textAlign="center" py={10}>
-            <Typography variant="h6" color="text.secondary">
+          <Box 
+            textAlign="center" 
+            py={{ xs: 6, md: 10 }}
+            px={2}
+          >
+            <Typography 
+              variant="h6" 
+              color="text.secondary"
+              sx={{ fontSize: { xs: "1rem", md: "1.25rem" } }}
+            >
               No projects to display yet. Check back soon!
             </Typography>
           </Box>
@@ -343,54 +468,189 @@ function Projects() {
           onClose={handleCloseDetails}
           maxWidth="md"
           fullWidth
+          fullScreen={isMobile}
+          TransitionComponent={isMobile ? Slide : Fade}
+          TransitionProps={isMobile ? { direction: "up" } : {}}
           PaperProps={{
-            sx: { borderRadius: 4, overflow: "hidden" },
+            sx: { 
+              borderRadius: isMobile ? 0 : 4, 
+              overflow: "hidden",
+              m: isMobile ? 0 : 2
+            },
           }}
         >
-          <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 3 }}>
-            <Typography variant="h5" fontWeight="700">{selectedProject?.name}</Typography>
-            <IconButton onClick={handleCloseDetails} size="small" sx={{ bgcolor: "#f1f5f9" }}>
+          <DialogTitle 
+            sx={{ 
+              display: "flex", 
+              justifyContent: "space-between", 
+              alignItems: "center", 
+              p: { xs: 2, sm: 3 },
+              borderBottom: "1px solid",
+              borderColor: "divider",
+              position: isMobile ? "sticky" : "relative",
+              top: 0,
+              bgcolor: "background.paper",
+              zIndex: 1
+            }}
+          >
+            <Typography 
+              variant="h5" 
+              fontWeight="700"
+              sx={{ 
+                fontSize: { xs: "1.1rem", sm: "1.35rem", md: "1.5rem" },
+                pr: 2,
+                lineHeight: 1.3
+              }}
+            >
+              {selectedProject?.name}
+            </Typography>
+            <IconButton 
+              onClick={handleCloseDetails} 
+              size={isMobile ? "medium" : "small"}
+              sx={{ 
+                bgcolor: "#f1f5f9",
+                flexShrink: 0,
+                "&:hover": { bgcolor: "#e2e8f0" }
+              }}
+            >
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent dividers sx={{ p: 3 }}>
+          
+          <DialogContent 
+            sx={{ 
+              p: { xs: 2, sm: 3 },
+              overflowY: "auto"
+            }}
+          >
             {selectedProject && (
               <Box>
-                <Grid container spacing={3} sx={{ mb: 4 }}>
-                   <Grid item xs={12} md={8}>
-                      <Typography variant="body1" paragraph sx={{ fontSize: "1.05rem", lineHeight: 1.7, color: "#334155" }}>
-                        {selectedProject.description}
-                      </Typography>
-                   </Grid>
-                   <Grid item xs={12} md={4}>
-                      <Box sx={{ p: 3, bgcolor: "#f8fafc", borderRadius: 3 }}>
-                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>Project Type</Typography>
-                        <Typography variant="body1" fontWeight="600" sx={{ mb: 2 }}>{selectedProject.type}</Typography>
+                <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: { xs: 3, md: 4 } }}>
+                  {/* Description - Full width on mobile */}
+                  <Grid item xs={12} md={8} order={{ xs: 2, md: 1 }}>
+                    <Typography 
+                      variant="body1" 
+                      paragraph 
+                      sx={{ 
+                        fontSize: { xs: "0.95rem", md: "1.05rem" }, 
+                        lineHeight: 1.7, 
+                        color: "#334155",
+                        mb: 0
+                      }}
+                    >
+                      {selectedProject.description}
+                    </Typography>
+                  </Grid>
+                  
+                  {/* Info Card */}
+                  <Grid item xs={12} md={4} order={{ xs: 1, md: 2 }}>
+                    <Box 
+                      sx={{ 
+                        p: { xs: 2, md: 3 }, 
+                        bgcolor: "#f8fafc", 
+                        borderRadius: 3,
+                        border: "1px solid",
+                        borderColor: "rgba(0,0,0,0.04)"
+                      }}
+                    >
+                      <Stack 
+                        direction={{ xs: "row", md: "column" }} 
+                        spacing={{ xs: 0, md: 2 }}
+                        justifyContent={{ xs: "space-between", md: "flex-start" }}
+                        flexWrap="wrap"
+                      >
+                        <Box sx={{ minWidth: { xs: "auto", sm: "30%" }, mb: { xs: 1.5, md: 0 } }}>
+                          <Typography 
+                            variant="subtitle2" 
+                            color="text.secondary" 
+                            gutterBottom
+                            sx={{ fontSize: { xs: "0.7rem", md: "0.75rem" }, textTransform: "uppercase", letterSpacing: 0.5 }}
+                          >
+                            Project Type
+                          </Typography>
+                          <Typography 
+                            variant="body1" 
+                            fontWeight="600"
+                            sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
+                          >
+                            {selectedProject.type}
+                          </Typography>
+                        </Box>
                         
-                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>Price Range</Typography>
-                        <Typography variant="body1" fontWeight="600" sx={{ color: "#3a0ca3", mb: 2 }}>
-                          {formatPrice(selectedProject.price)}
-                        </Typography>
+                        <Box sx={{ minWidth: { xs: "auto", sm: "30%" }, mb: { xs: 1.5, md: 0 } }}>
+                          <Typography 
+                            variant="subtitle2" 
+                            color="text.secondary" 
+                            gutterBottom
+                            sx={{ fontSize: { xs: "0.7rem", md: "0.75rem" }, textTransform: "uppercase", letterSpacing: 0.5 }}
+                          >
+                            Price Range
+                          </Typography>
+                          <Typography 
+                            variant="body1" 
+                            fontWeight="600" 
+                            sx={{ color: "#3a0ca3", fontSize: { xs: "0.9rem", md: "1rem" } }}
+                          >
+                            {formatPrice(selectedProject.price)}
+                          </Typography>
+                        </Box>
 
-                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>Launched</Typography>
-                        <Typography variant="body1" fontWeight="600">{formatDate(selectedProject.createdAt)}</Typography>
-                      </Box>
-                   </Grid>
+                        <Box sx={{ minWidth: { xs: "auto", sm: "30%" } }}>
+                          <Typography 
+                            variant="subtitle2" 
+                            color="text.secondary" 
+                            gutterBottom
+                            sx={{ fontSize: { xs: "0.7rem", md: "0.75rem" }, textTransform: "uppercase", letterSpacing: 0.5 }}
+                          >
+                            Launched
+                          </Typography>
+                          <Typography 
+                            variant="body1" 
+                            fontWeight="600"
+                            sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
+                          >
+                            {formatDate(selectedProject.createdAt)}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Box>
+                  </Grid>
                 </Grid>
 
+                {/* Gallery */}
                 {selectedProject.images && selectedProject.images.length > 0 && (
-                  <Box sx={{ mb: 3 }}>
-                    <Typography variant="h6" gutterBottom fontWeight="700">
+                  <Box>
+                    <Typography 
+                      variant="h6" 
+                      gutterBottom 
+                      fontWeight="700"
+                      sx={{ fontSize: { xs: "1rem", md: "1.15rem" }, mb: 2 }}
+                    >
                       Gallery
                     </Typography>
-                    <ImageList cols={2} gap={16} rowHeight={300}>
+                    <ImageList 
+                      cols={isMobile ? 1 : 2} 
+                      gap={isMobile ? 12 : 16} 
+                      rowHeight={isMobile ? 220 : 300}
+                    >
                       {selectedProject.images.map((image, index) => (
-                        <ImageListItem key={index} sx={{ borderRadius: 3, overflow: "hidden" }}>
+                        <ImageListItem 
+                          key={index} 
+                          sx={{ 
+                            borderRadius: { xs: 2, md: 3 }, 
+                            overflow: "hidden",
+                            boxShadow: "0 2px 12px rgba(0,0,0,0.08)"
+                          }}
+                        >
                           <img
                             src={image.url || "/placeholder.svg"}
                             alt={`${selectedProject.name} - Image ${index + 1}`}
                             loading="lazy"
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            style={{ 
+                              width: "100%", 
+                              height: "100%", 
+                              objectFit: "cover" 
+                            }}
                           />
                         </ImageListItem>
                       ))}
@@ -400,7 +660,19 @@ function Projects() {
               </Box>
             )}
           </DialogContent>
-          <DialogActions sx={{ p: 3, bgcolor: "#f8f9fa" }}>
+          
+          <DialogActions 
+            sx={{ 
+              p: { xs: 2, sm: 3 }, 
+              bgcolor: "#f8f9fa",
+              borderTop: "1px solid",
+              borderColor: "divider",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 1, sm: 1 },
+              position: isMobile ? "sticky" : "relative",
+              bottom: 0
+            }}
+          >
             <Button
               variant="outlined"
               startIcon={<QuoteIcon />}
@@ -408,8 +680,20 @@ function Projects() {
                 handleCloseDetails()
                 handleRequestQuote(selectedProject)
               }}
-              size="large"
-              sx={{ borderRadius: 2, textTransform: "none", mr: 1 }}
+              fullWidth={isMobile}
+              size={isMobile ? "medium" : "large"}
+              sx={{ 
+                borderRadius: 2, 
+                textTransform: "none",
+                fontWeight: 600,
+                borderColor: "#3a0ca3",
+                color: "#3a0ca3",
+                order: { xs: 2, sm: 1 },
+                "&:hover": {
+                  borderColor: "#2e0a82",
+                  bgcolor: "rgba(58, 12, 163, 0.04)"
+                }
+              }}
             >
               Request Custom Quote
             </Button>
@@ -418,12 +702,19 @@ function Projects() {
                 variant="contained"
                 startIcon={<LaunchIcon />}
                 onClick={() => handleViewDemo(selectedProject.hostedLink)}
-                size="large"
+                fullWidth={isMobile}
+                size={isMobile ? "medium" : "large"}
                 sx={{ 
                   borderRadius: 2, 
                   textTransform: "none", 
+                  fontWeight: 600,
                   bgcolor: "#4361ee",
-                  "&:hover": { bgcolor: "#3a0ca3" }
+                  order: { xs: 1, sm: 2 },
+                  boxShadow: "0 4px 14px rgba(67, 97, 238, 0.3)",
+                  "&:hover": { 
+                    bgcolor: "#3a0ca3",
+                    boxShadow: "0 6px 20px rgba(58, 12, 163, 0.4)"
+                  }
                 }}
               >
                 Visit Live Site
@@ -433,10 +724,44 @@ function Projects() {
         </Dialog>
 
         {/* Quote Form Modal */}
-        <Dialog open={quoteFormOpen} onClose={handleCloseQuoteForm} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: 4 } }}>
-          <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 3 }}>
-            <Typography variant="h5" fontWeight="700">Start Your Project</Typography>
-            <IconButton onClick={handleCloseQuoteForm}>
+        <Dialog 
+          open={quoteFormOpen} 
+          onClose={handleCloseQuoteForm} 
+          maxWidth="sm" 
+          fullWidth
+          fullScreen={isMobile}
+          TransitionComponent={isMobile ? Slide : Fade}
+          TransitionProps={isMobile ? { direction: "up" } : {}}
+          PaperProps={{ 
+            sx: { 
+              borderRadius: isMobile ? 0 : 4,
+              m: isMobile ? 0 : 2
+            } 
+          }}
+        >
+          <DialogTitle 
+            sx={{ 
+              display: "flex", 
+              justifyContent: "space-between", 
+              alignItems: "center", 
+              p: { xs: 2, sm: 3 },
+              borderBottom: "1px solid",
+              borderColor: "divider",
+              background: "linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%)",
+              color: "white"
+            }}
+          >
+            <Typography 
+              variant="h5" 
+              fontWeight="700"
+              sx={{ fontSize: { xs: "1.1rem", sm: "1.35rem" } }}
+            >
+              Start Your Project
+            </Typography>
+            <IconButton 
+              onClick={handleCloseQuoteForm}
+              sx={{ color: "white" }}
+            >
               <CloseIcon />
             </IconButton>
           </DialogTitle>
