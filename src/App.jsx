@@ -14,7 +14,7 @@ import Services from './pages/Services';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Quote from './pages/Quote';
-import Admin from './CMS/MalloyaAdmin';
+// import Admin from './CMS/MalloyaAdmin';
 import MalloyaAdmin from './CMS/MalloyaAdmin';
 import Projects from './pages/Projects';
 import { HelmetProvider } from 'react-helmet-async';
